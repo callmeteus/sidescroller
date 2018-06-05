@@ -7,5 +7,5 @@ MapEvent.click 		= function(pointer) {
 	var tileX 		= pointer.worldX / game.tilemap.tileWidth;
 	var tileY 		= pointer.worldY / game.tilemap.tileHeight;
 
-	game_map_spawn("inventory-" + game.player.currentItem.id, tileworldX , tileworldY);
+	game_stage_spawn("inventory-" + game.player.currentItem.id, tileworldX , tileworldY);
 };

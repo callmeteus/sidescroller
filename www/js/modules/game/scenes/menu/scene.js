@@ -1,16 +1,32 @@
-var Scene 	= Scene || {};
+var Scene 						= Scene || {};
 
-Scene.menu 	= function() {
-	for(var mapId in game_stage_list) {
-		var map 	= game_stage_list[mapId];
+Scene.menu 						= function(callback) {
+	var data 					= {
+		game_items: 	game_items
+	};
 
-		var $map 	= $("<div/>").appendTo("#game-stage-selector .modal-body");
+	// Load game container
+	app_mustache_load("game", document.body, data, true, function() {
+		// Load all unlocked stages
+		game_stage_available(function() {
+			data.game_stages 	= game_stage_list;
 
-		$map.addClass("game-map col-12 mb-1");
-		$map.css("background-image", "url(" + map.image + ")");
+			// Load menu
+			app_mustache_load("menu", $container, data, false, function() {
+				// Check if game is loaded
+				if (typeof game.layers !== "undefined") {
+					// Reset game stage
+					game_stage_reset();
 
-		$map.append("<h3 class='game-map-title'>" + map.name + "</h3>");
+					// Recreate the game
+					Scene.create();
+				}
 
-		$map.data("id", mapId);
-	}
+				if (typeof callback === "function")
+					callback();
+				else
+					$container.find("#game-menu").modal("show");
+			});
+		});		
+	});
 };

@@ -3,12 +3,15 @@
 */
 
 // Configuration file
-global.configFile   = require("./config"); 
+global.configFile   = require("./config");
 global.packageFile  = require("./package");
+
+packageFile.userCookie  = "_gd";
 
 var express         = require("express"),
     fs              = require("fs"),
     path            = require("path"),
+    cookieParser    = require("cookie-parser"),
     env             = process.env;
 
 /* --------------------------------------------------------------------- */
@@ -30,6 +33,9 @@ log.info("Starting app express...", log.server);
 
 // Serve static files
 app.use(express.static("www"));
+
+// Cookie parser middleware
+app.use(cookieParser());
 
 // Start express
 server.listen(app_port || 80, env.NODE_IP);
@@ -72,4 +78,5 @@ app.use(function(req, res, next){
 });
 
 // Require API file handler
+require("./stages");
 require("./api");

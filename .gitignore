@@ -2,6 +2,8 @@
 package-lock.json
 *.sublime-project
 *.sublime-workspace
+*.tsx
+*.tmx
 node_modules/
-maps/
+maps/tiled/
 logs/

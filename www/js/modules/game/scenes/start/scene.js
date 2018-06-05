@@ -1,16 +1,16 @@
 var Scene 		= Scene || {};
 
 Scene.start 	= function() {
-	// Kill all placed map items if they exists
-	if (game.mapItems)
-		game.mapItems.callAll("kill");
+	// Reset game stage
+	game_stage_reset();
 
-	game_map_load(game_stage_list[game_current_stage].file, function() {
+	// Load current stage
+	game_stage_load(game_current_stage, function() {
 		// Create player
-		game_map_createPlayer();
+		game_stage_createPlayer();
 
 		// Create block marker
-		game_map_createMarker();
+		game_stage_createMarker();
 
 	    /* ---------------------------------------------------------------------- */
 
@@ -18,12 +18,9 @@ Scene.start 	= function() {
 	    game.isLoaded 					= true;
 
 		// Start game timer
-		Scene._playerTimer 					= setInterval(function() {
-			game.player.timer++;
-			$(".game-timer").text(game.player.timer.fancyTimeFormat());
-		}, 1000);
+		game_timer_start(true);
 
-		// Show inventory
+		// Show inventory and stats
 		$("#game-inventory, #game-stats").show();
 	});
 };

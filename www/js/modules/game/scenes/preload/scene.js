@@ -8,10 +8,5 @@ Scene.preload 	= function() {
 		game.load.image("inventory-" + game_items[item].id, game_items[item].image);
 
 	// Load menu
-	app_mustache_load("menu", $container, null, false, function() {
-		$container.find("#game-menu").modal("show");
-
-		// Load game container
-		app_mustache_load("game", document.body, { game_items: game_items }, true, Scene.menu);
-	});
+	Scene.menu();
 };

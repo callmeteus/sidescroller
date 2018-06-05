@@ -28,18 +28,25 @@
 </div>
 
 <div class="modal fade" id="game-stage-selector" tabindex="-1" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary text-white">
 				<h3 class="modal-title">Select Stage</h3>
 			</div>
 
-			<div class="modal-body row mx-1"></div>
+			<div class="modal-body row mx-1 justify-content-around">
+				{{#game_stages}}
+					<div data-id="{{id}}" class="game-stage col-5" style="background-image:url({{image}})">
+						<h3 class="game-stage-title">{{name}}</h3>
+					</div>
+				{{/game_stages}}
+			</div>
 
 			<div class="modal-footer">
 				<button class="btn btn-primary btn-lg col-4" id="game-button-menu">
 					<i class="fa fa-fw fa-chevron-left mr-1"></i>Back
 				</button>
+
 				<button class="btn btn-success btn-lg col-8" id="game-button-start" disabled>
 					<i class="fa fa-fw fa-check mr-1"></i>Start
 				</button>

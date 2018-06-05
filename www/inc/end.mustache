@@ -11,7 +11,7 @@
 			</div>
 
 			<div class="modal-body">
-				<i class="fa fa-fw fa-clock text-success mr-1"></i><strong class="game-timer">{{timer}}</strong><br/>
+				<i class="fa fa-fw fa-clock text-success mr-1"></i><strong class="game-timer">{{time}}</strong><br/>
 				<i class="fa fa-fw fa-coins text-warning mr-1"></i><strong class="game-score">{{score}}</strong>
 
 				<button id="game-button-next" {{^win}}disabled{{/win}} class="btn btn-success btn-lg btn-block mt-5">
@@ -19,6 +19,9 @@
 				</button>
 				<button id="game-button-start" class="btn btn-primary btn-lg btn-block">
 					<i class="fa fa-fw fa-sync mr-1"></i>Restart
+				</button>
+				<button id="game-button-menu" class="btn btn-secondary btn-lg btn-block">
+					<i class="fa fa-fw fa-home mr-1"></i>Go to Menu
 				</button>
 			</div>
 		</div>

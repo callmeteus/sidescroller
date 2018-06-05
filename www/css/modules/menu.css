@@ -1,9 +1,14 @@
-#game-stage-selector .game-map {
+#game-stage-selector .modal-body {
+	max-height: 50vh;
+	overflow-y: scroll;
+}
+
+#game-stage-selector .game-stage {
 	padding: 1em;
 
 	background-color: rgba(0, 0, 0, 0.05);
 
-	border: 1px solid transparent;
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	border-radius: 5px;
 
 	background-size: cover;
@@ -11,28 +16,25 @@
 	background-position: center;
 
 	position: relative;
+	
+	background-color: var(--light);
 }
 
-#game-stage-selector .modal-body {
-	max-height: 50vh;
-	overflow-y: scroll;
-}
-
-#game-stage-selector .game-map.active {
+#game-stage-selector .game-stage.active {
 	border-color: var(--success);
 }
 
-#game-stage-selector .game-map.disabled {
+#game-stage-selector .game-stage.disabled {
 	opacity: 0.75;
 }
 
-#game-stage-selector .game-map:after {
+#game-stage-selector .game-stage:after {
 	content: "";
 	display: inline-block;
-	padding-bottom: 100%;
+	padding-bottom: 50%;
 }
 
-#game-stage-selector .game-map .game-map-title {
+#game-stage-selector .game-stage .game-stage-title {
 	position: absolute;
 	left: 0;
 	bottom: 0.5em;
