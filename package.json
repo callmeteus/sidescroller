@@ -1,6 +1,6 @@
 {
 	"name": "sidescroller",
-	"version": 0.2,
+	"version": "0.2.1-alpha",
 	"description": "Sidescroller Game",
 	"main": "app.js",
 	"homepage": "https://github.com/theprometeus/sidescroller",
