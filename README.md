@@ -1,4 +1,4 @@
-# sidescroller
+# sidescroller [![Build Status](https://travis-ci.org/theprometeus/sidescroller.svg?branch=master)](https://travis-ci.org/js-cookie/js-cookie) [![Code Climate](https://codeclimate.com/github/theprometeus/sidescroller.svg)](https://codeclimate.com/github/theprometeus/sidescroller)
 Sidescroller Game
 by [Kemononaru Studio](http://kemononaru.studio)
 
