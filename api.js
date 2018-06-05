@@ -100,18 +100,18 @@ app.get("/game.css", function(req, res) {
 app.get("/api/stages", function(req, res) {
 	res.setHeader("Content-Type", "application/json");
 
-	var data 			= req.cookies[packageFile.userCookie];
+	var playerData 		= req.cookies[packageFile.userCookie];
 	var end 			= 1;
 
-	if (typeof data !== "undefined") {
+	if (typeof playerData !== "undefined") {
 		try {
-			data 			= JSON.parse(Buffer.from(data, "base64").toString("utf8"));
+			playerData 			= JSON.parse(Buffer.from(playerData, "base64").toString("utf8"));
 
-			if (!Object.keys(data.stages).length)
+			if (!Object.keys(playerData.stages).length)
 				end 		= 1;
 			else {
-				for(var stage in data.stages)
-					if (data.stages[stage].win)
+				for(var stage in playerData.stages)
+					if (playerData.stages[stage].win)
 						end 	= parseInt(stage) + 1;
 
 				end++;
@@ -134,6 +134,7 @@ app.get("/api/stages", function(req, res) {
 			id: 	i,
 			name: 	stage.name,
 			image: 	stage.image,
+			done: 	(typeof playerData.stages[i] !== "undefined" && playerData.stages[i].win)
 		};
 
 		data.push(finalStage);

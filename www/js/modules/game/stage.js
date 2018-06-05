@@ -26,7 +26,7 @@ function game_stage_load(mapName, callback) {
 		game.layers.ground.resizeWorld();
 
 		game.tilemap.plus.physics.enableObjectLayer("collision");
-		game.tilemap.plus.events.regions.enableObjectLayer("limits");
+		game.tilemap.plus.events.regions.enableObjectLayer("helpers");
 
 		callback();
 	});
@@ -67,7 +67,7 @@ function game_stage_createMarker() {
     game.cursorMarker.lineStyle(2, 0xffffff, 1);
     game.cursorMarker.drawRect(0, 0, game.tilemap.tileWidth, game.tilemap.tileHeight);
 
-    game.input.addMoveCallback(MapEvent.move, this);
+    game.input.addMoveCallback(MapEvent.move, game);
 }
 
 /**
@@ -118,16 +118,21 @@ function game_stage_reset() {
 
 	// Remove all map items
 	game.mapItems.callAll("kill");
+	delete(game.mapItems);
 
 	// Remove map cursor
 	game.cursorMarker.kill();
+	delete(game.cursorMarker);
 
 	// Destroy current tilemap
 	game.tilemap.destroy();
+	delete(game.tilemap);
 
 	// Clear all game layers
 	for(var layer in game.layers)
 		game.layers[layer].destroy();
+
+	delete(game.layers);
 }
 
 /**

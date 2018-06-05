@@ -5,6 +5,7 @@
 
 #game-stage-selector .game-stage {
 	padding: 1em;
+	margin-bottom: 1em;
 
 	background-color: rgba(0, 0, 0, 0.05);
 
@@ -17,7 +18,16 @@
 
 	position: relative;
 	
-	background-color: var(--light);
+	background-color: var(--sky);
+
+	transition: all ease 0.25s;
+
+	cursor: pointer;
+}
+
+#game-stage-selector .game-stage:hover,
+#game-stage-selector .game-stage.active {
+	opacity: 1 !important;
 }
 
 #game-stage-selector .game-stage.active {

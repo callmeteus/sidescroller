@@ -19,6 +19,8 @@ Scene.create 	= function() {
 
 	game.stage.backgroundColor 				= "transparent";
 
+	game.time.advancedTiming 				= true;
+
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 

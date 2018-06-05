@@ -1,7 +1,7 @@
 <div class="modal fade" id="game-menu" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header bg-primary text-white">
+			<div class="modal-header bg-info text-white">
 				<h3 class="modal-title">{{ game_title }}</h3>
 			</div>
 
@@ -9,6 +9,7 @@
 				<button class="btn btn-success btn-lg btn-block" id="game-button-stage-selector">
 					<i class="fa fa-fw fa-chevron-right mr-1"></i>Select Stage
 				</button>
+
 				<button class="btn btn-primary btn-lg btn-block" id="game-button-start">
 					<i class="fa fa-fw fa-question mr-1"></i>How To Play
 				</button>
@@ -30,13 +31,13 @@
 <div class="modal fade" id="game-stage-selector" tabindex="-1" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-header bg-primary text-white">
+			<div class="modal-header bg-info text-white">
 				<h3 class="modal-title">Select Stage</h3>
 			</div>
 
 			<div class="modal-body row mx-1 justify-content-around">
 				{{#game_stages}}
-					<div data-id="{{id}}" class="game-stage col-5" style="background-image:url({{image}})">
+					<div data-id="{{id}}" class="game-stage col-5 {{#done}}disabled{{/done}}" style="background-image:url({{image}})">
 						<h3 class="game-stage-title">{{name}}</h3>
 					</div>
 				{{/game_stages}}
