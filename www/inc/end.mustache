@@ -1,0 +1,26 @@
+<div class="modal fade" id="game-menu" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header text-white bg-{{^win}}danger{{/win}}{{#win}}success{{/win}}">
+				<h3 class="modal-title">
+					{{^win}}Game Over{{/win}}
+					{{#win}}Stage Complete!{{/win}}
+				</h3>
+
+				<span class="text-light">{{stage.name}}</span>
+			</div>
+
+			<div class="modal-body">
+				<i class="fa fa-fw fa-clock text-success mr-1"></i><strong class="game-timer">{{timer}}</strong><br/>
+				<i class="fa fa-fw fa-coins text-warning mr-1"></i><strong class="game-score">{{score}}</strong>
+
+				<button id="game-button-next" {{^win}}disabled{{/win}} class="btn btn-success btn-lg btn-block mt-5">
+					Next<i class="fa fa-fw fa-chevron-right ml-1"></i>
+				</button>
+				<button id="game-button-start" class="btn btn-primary btn-lg btn-block">
+					<i class="fa fa-fw fa-sync mr-1"></i>Restart
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

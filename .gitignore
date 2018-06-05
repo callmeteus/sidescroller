@@ -1,0 +1,7 @@
+*.bat
+package-lock.json
+*.sublime-project
+*.sublime-workspace
+node_modules/
+maps/
+logs/

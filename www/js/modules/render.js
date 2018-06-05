@@ -1,7 +1,3 @@
-var app_config 			= {
-	game_title: 	"Sidescroller"
-};
-
 var app_mustache_cache 	= {};
 
 /**

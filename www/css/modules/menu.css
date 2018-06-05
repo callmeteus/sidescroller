@@ -1,0 +1,41 @@
+#game-stage-selector .game-map {
+	padding: 1em;
+
+	background-color: rgba(0, 0, 0, 0.05);
+
+	border: 1px solid transparent;
+	border-radius: 5px;
+
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+
+	position: relative;
+}
+
+#game-stage-selector .modal-body {
+	max-height: 50vh;
+	overflow-y: scroll;
+}
+
+#game-stage-selector .game-map.active {
+	border-color: var(--success);
+}
+
+#game-stage-selector .game-map.disabled {
+	opacity: 0.75;
+}
+
+#game-stage-selector .game-map:after {
+	content: "";
+	display: inline-block;
+	padding-bottom: 100%;
+}
+
+#game-stage-selector .game-map .game-map-title {
+	position: absolute;
+	left: 0;
+	bottom: 0.5em;
+	width: 100%;
+	text-align: center;
+}

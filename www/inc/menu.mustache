@@ -1,0 +1,49 @@
+<div class="modal fade" id="game-menu" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h3 class="modal-title">{{ game_title }}</h3>
+			</div>
+
+			<div class="modal-body text-center">
+				<button class="btn btn-success btn-lg btn-block" id="game-button-stage-selector">
+					<i class="fa fa-fw fa-chevron-right mr-1"></i>Select Stage
+				</button>
+				<button class="btn btn-primary btn-lg btn-block" id="game-button-start">
+					<i class="fa fa-fw fa-question mr-1"></i>How To Play
+				</button>
+			</div>
+
+			<div class="modal-footer small">
+				<div class="col-4 text-muted text-left">
+					v{{ game_version }} Alpha
+				</div>
+
+				<div class="col-8 text-right">
+					Developed by <a href="//kemononaru.studio">Kemononaru Studio</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="game-stage-selector" tabindex="-1" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h3 class="modal-title">Select Stage</h3>
+			</div>
+
+			<div class="modal-body row mx-1"></div>
+
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-lg col-4" id="game-button-menu">
+					<i class="fa fa-fw fa-chevron-left mr-1"></i>Back
+				</button>
+				<button class="btn btn-success btn-lg col-8" id="game-button-start" disabled>
+					<i class="fa fa-fw fa-check mr-1"></i>Start
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

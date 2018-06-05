@@ -1,0 +1,8 @@
+.modal .modal-content {
+	transform: translate(0, -50%);
+    top: 50vh;
+}
+
+.modal .modal-dialog {
+	margin-top: 0;
+}

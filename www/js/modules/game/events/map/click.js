@@ -1,4 +1,6 @@
-function game_event_mouseClick(pointer) {
+var MapEvent 		= MapEvent || {};
+
+MapEvent.click 		= function(pointer) {
 	var tileworldX 	= pointer.worldX - (pointer.worldX % game.tilemap.tileWidth);    
 	var tileworldY 	= pointer.worldY - (pointer.worldY % game.tilemap.tileHeight);  
  
