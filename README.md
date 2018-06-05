@@ -11,6 +11,7 @@ This game uses:
 - [Bootstrap](https://github.com/twbs/bootstrap)
 - [jQuery](https://github.com/jquery/jquery)
 - [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
+- [Javascript Cookie](https://github.com/js-cookie/js-cookie)
 
 ----
 
