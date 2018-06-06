@@ -9,10 +9,11 @@ global.packageFile  = require("./package");
 packageFile.userCookie  = "_gd";
 
 var express         = require("express"),
-    fs              = require("fs"),
-    path            = require("path"),
     cookieParser    = require("cookie-parser"),
     env             = process.env;
+
+global.fs           = require("fs");
+global.path         = require("path");
 
 /* --------------------------------------------------------------------- */
 
