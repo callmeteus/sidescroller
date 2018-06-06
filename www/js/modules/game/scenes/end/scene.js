@@ -1,7 +1,15 @@
 var Scene 		= Scene || {};
 
+/**
+ * Game Over scene
+ * @param  {Boolean} isWinner Player is winner?
+ */
 Scene.end 		= function(isWinner) {
+	// Unload game
 	game.isLoaded 						= false;
+
+	// Stop game timer
+	game_timer_stop();
 
 	// Update player points
 	game.player.points 					= Math.round(game.player.points);
@@ -30,26 +38,6 @@ Scene.end 		= function(isWinner) {
 	if (typeof currentData !== "undefined" && currentData.win)
 		data.prevWin 	= true;
 
-	// Set player stage data
-	game_stage_data_set(game_current_stage, data);
-
-	// Check for player win
-	if (data.win || data.prevWin)
-		// Get available stages
-		game_stage_available(function() {
-			// Prepare end screen data
-			data 				= Object.assign(data, {
-				stage: 			game_stage_list[game_current_stage],
-				time: 			data.time.fancyTimeFormat(),
-				next: 			(game_stage_list.length-1 > game_current_stage) && (data.win || data.prevWin)
-			});
-
-			// Load game end screen
-			app_mustache_load("end", $container, data, false, function() {
-				$container.find(".modal").modal("show");
-			});
-		});
-	
-	// Stop game timer
-	game_timer_stop();
+	// Do stage check
+	return game_scene_end_stageCheck(data);
 };
