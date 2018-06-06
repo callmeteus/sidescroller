@@ -14,13 +14,15 @@ Scene.menu 						= function(callback) {
 			// Load menu
 			app_mustache_load("menu", $container, data, false, function() {
 				// Check if game is loaded
-				if (typeof game.layers !== "undefined") {
-					// Reset game stage
-					game_stage_reset();
+				if (typeof game.layers !== "undefined")
+					// Hide game
+					game_fadeOut(function() {
+						// Reset game stage
+						game_stage_reset();
 
-					// Recreate the game
-					Scene.create();
-				}
+						// Recreate the game
+						Scene.create();
+					});
 
 				if (typeof callback === "function")
 					callback();

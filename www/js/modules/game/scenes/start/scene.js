@@ -12,6 +12,8 @@ Scene.start 	= function() {
 		// Create block marker
 		game_stage_createMarker();
 
+		game_fadeIn();
+
 	    /* ---------------------------------------------------------------------- */
 
 	    // Set game to loaded
@@ -19,8 +21,5 @@ Scene.start 	= function() {
 
 		// Start game timer
 		game_timer_start(true);
-
-		// Show inventory and stats
-		$("#game-inventory, #game-stats").show();
 	});
 };

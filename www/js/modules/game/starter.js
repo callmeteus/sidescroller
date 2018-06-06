@@ -5,16 +5,43 @@ var game_current_stage 	= null;
 
 /* ---------------------------------------------------------- */
 
-var game 				= new Phaser.Game(
-	1280,
-	720,
-	Phaser.AUTO,
-	"",
-	{
-		preload: 	Scene.preload, 
-		create: 	Scene.create, 
-		update: 	Scene.update, 
-		render: 	Scene.render 
-	}, 
-	true
-);
+jQuery.getScripts = function(scripts, callback) {
+	var progress 	= 0;
+
+	var _getScript 	= function() {
+		if (progress == scripts.length)
+		  	return callback(null, 100);
+		else
+			callback(scripts[progress], Math.round((progress / scripts.length) * 100));
+
+		$.getScript(scripts[progress], function() {
+		    progress++;
+
+		    _getScript();
+		});
+	};
+
+	_getScript();
+};
+
+var game_scripts 	= ["/js/lib/phaser.js", "/js/lib/phaser.tilemap.plus.js", "/js/lib/fontawesome.js"];
+
+$.getScripts(game_scripts, function(file, progress) {
+	if (file !== null)
+		app_loader_set(file.split("/").pop(), progress);
+
+	if (progress === 100)
+		game 				= new Phaser.Game(
+			1280,
+			720,
+			Phaser.AUTO,
+			"",
+			{
+				preload: 	Scene.preload, 
+				create: 	Scene.create, 
+				update: 	Scene.update, 
+				render: 	Scene.render 
+			}, 
+			true
+		);
+});

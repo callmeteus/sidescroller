@@ -45,7 +45,9 @@ function game_player_data_load() {
  * @return {[type]}     Data
  */
 function game_player_data_get(key) {
-	return game_player_data[key];
+	return key.split(".").reduce(function(prev, curr) {
+		return prev ? prev = prev[curr] : undefined;
+	}, game_player_data);
 }
 
 /**

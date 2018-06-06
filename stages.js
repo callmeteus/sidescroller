@@ -9,11 +9,5 @@ game_stage_list 	= [
 		file: 	"2",
 		name: 	"Stage 2",
 		image: 	"/img/maps/2.png"
-	},
-
-	{
-		file: 	"3",
-		name: 	"Stage 3",
-		image: 	"about:blank"
 	}
 ];

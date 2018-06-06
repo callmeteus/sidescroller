@@ -2,7 +2,7 @@
 Sidescroller Game
 by [Kemononaru Studio](http://kemononaru.studio)
 
-You can play the game (clicking here)[https://kemononaru-sidescroller.herokuapp.com]
+You can play the game [clicking here](https://kemononaru-sidescroller.herokuapp.com)
 
 ----
 
@@ -12,11 +12,10 @@ This game uses is built using [Node.JS](https://github.com/nodejs/node) and [Pha
 
 # How to run:
 1. Download the current source code
-2. Run `npm install`
-2. Run `npm start`
+2. `npm install`
+2. `npm start`
 
 ----
 
 # Known bugs:
 - You can place items inside player (on player tragetory)
-- Tiled polylines / poligon collision are not working

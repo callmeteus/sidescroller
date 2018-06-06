@@ -6,3 +6,10 @@
 .modal .modal-dialog {
 	margin-top: 0;
 }
+
+.align-absolute-center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}

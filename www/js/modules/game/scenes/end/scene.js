@@ -21,32 +21,34 @@ Scene.end 		= function(isWinner) {
 		win: 			(isWinner) ? true : false,
 		time: 			game.player.timer,
 		score: 			game.player.points,
+		prevWin: 		false
 	};
 
 	var currentData 	= game_stage_data_get(game_current_stage);
 
 	// Check if player already passed this stage
-	if (typeof currentData !== "undefined" && currentData.win) {
-		data.win 		= true;
-	} else 
-		if (data.win)
-			game_stage_available();
+	if (typeof currentData !== "undefined" && currentData.win)
+		data.prevWin 	= true;
 
 	// Set player stage data
 	game_stage_data_set(game_current_stage, data);
 
-	data 				= Object.assign(data, {
-		stage: 			game_stage_list[game_current_stage],
-		time: 			data.time.fancyTimeFormat()
-	});
+	// Check for player win
+	if (data.win || data.prevWin)
+		// Get available stages
+		game_stage_available(function() {
+			// Prepare end screen data
+			data 				= Object.assign(data, {
+				stage: 			game_stage_list[game_current_stage],
+				time: 			data.time.fancyTimeFormat(),
+				next: 			(game_stage_list.length-1 > game_current_stage) && (data.win || data.prevWin)
+			});
 
-	// Load game end screen
-	app_mustache_load("end", $container, data, false, function() {
-		$container.find(".modal").modal("show");
-
-		// Hide game stats and inventory
-		$("#game-inventory, #game-stats").hide();
-	});
+			// Load game end screen
+			app_mustache_load("end", $container, data, false, function() {
+				$container.find(".modal").modal("show");
+			});
+		});
 	
 	// Stop game timer
 	game_timer_stop();

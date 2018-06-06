@@ -1,6 +1,5 @@
 // Debug var
 global.debug        = process.env.NODE_ENV !== "production";
-debug   = false;
 
 /*
     Requires
