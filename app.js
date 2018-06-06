@@ -87,7 +87,10 @@ app.use(express.static("www", { maxAge: (debug) ? 0 : 31557600 }));
 require("./stages");
 require("./api");
 
-// Start express
-server.listen(process.env.PORT || app_port, process.env.NODE_IP);
+if (!process.env.ISTRAVIS) {
+    // Start express
+    server.listen(process.env.PORT || app_port, process.env.NODE_IP);
 
-log.info("-> Listening on port " + app_port, log.server);
+    log.info("-> Listening on port " + app_port, log.server);
+} else 
+    log.info("-> Build success", log.server);
