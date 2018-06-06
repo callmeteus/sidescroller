@@ -24,7 +24,11 @@ var logType = {
 	http: 	"[" + colors.Blue + "http" + colors.Reset + "]"
 }
 
-var logf 	= require("fs").createWriteStream("./logs/" + ((new Date()).toLocaleString().replace(new RegExp(":", "g"), "-").replace(new RegExp("/", "g"), "-").replace(",", "")) + ".log");
+var logDir  = "./logs/";
+
+!fs.existsSync(logDir) && fs.mkdirSync(logDir);
+
+var logf 	= require("fs").createWriteStream(logDir + ((new Date()).toLocaleString().replace(new RegExp(":", "g"), "-").replace(new RegExp("/", "g"), "-").replace(",", "")) + ".log");
 
 function _log(color, type, txt, type2) {
 	txt 	= (new Date()).toLocaleString() + " [" + color + type + colors.Reset + "]" + ((typeof type2 === "undefined") ? "" : type2) + " " + txt;
