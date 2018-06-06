@@ -1,47 +1,4 @@
-var fs 					= require("fs");
-var glob 				= require("glob");
-
-/* ------------------------------------------------------------------------------------------------------- */
-
-var app_scripts;
-var app_styles;
-
-function app_get_scripts() {
-	app_scripts 		= "";
-
-	glob("www/js/modules/**/*.js", function(err, files) {
-		if (err)
-			throw err;
-
-		for(var file in files) {
-			file 	= files[file];
-
-			app_scripts 	+= 
-				"/* --------- app script " + (file.replace("www/js/modules/", "")) + " --------- */\n" +
-				(fs.readFileSync(file, "utf-8").minify()) +
-				"\n";
-		}
-
-		for(var config in packageFile)
-			if (config !== "dependencies" && config !== "main")
-				app_scripts 	= app_scripts.replace(new RegExp("{{game_" + config + "}}", "g"), packageFile[config]);
-	});
-};
-
-function app_get_styles() {
-	app_styles 			= "";
-
-	glob("www/css/modules/**/*.css", function(err, files) {
-		if (err)
-			throw err;
-
-		for(var file in files)
-			app_styles 	+= "/* --------- style " + (files[file].replace("www/css/modules/", "")) + " --------- */\n" + (fs.readFileSync(files[file], "utf-8").minify()) + "\n";
-	});
-};
-
-app_get_scripts();
-app_get_styles();
+require("./scripts");
 
 /* ------------------------------------------------------------------------------------------------------- */
 
@@ -55,30 +12,31 @@ app.get("*.mustache", function(req, res, next) {
 });
 
 // game index
-app.get("/", function(req, res) {
+app.get("/index.html", function(req, res, next) {
 	res.setHeader("Content-Type", "text/html");
 
 	if (!debug)
 		res.setHeader("Cache-Control", "public, max-age=86400");
+
+	res.render("index.html");
 });
 
 // game scripts
 app.get("/game.js", function(req, res) {
-	res.setHeader("Content-Type", "text/javascript");
-	
-	// Cache if not debug
-	if (!debug)
-		res.setHeader("Cache-Control", "public, max-age=86400");
+	res.setHeader("Content-Type", "application/javascript");
 
-	if (!debug)
-		res.write("(function(){");
+	var response 	= app_scripts;
 
-	res.write(app_scripts);
-	
-	if (!debug)
-		res.write("})();");
+	if (!debug) {
+		// Add function envelope
+		response 	= "(function(){" + app_minify_js(response) + "})();";
 
-	res.end();
+		// Cache it
+		//res.setHeader("Cache-Control", "public, max-age=86400");
+	}
+
+	// Send response
+	res.end(response);
 
 	if (debug)
 		app_get_scripts();
@@ -105,7 +63,7 @@ app.get("/api/stages", function(req, res) {
 
 	if (typeof playerData !== "undefined") {
 		try {
-			playerData 			= JSON.parse(Buffer.from(playerData, "base64").toString("utf8"));
+			playerData 			= JSON.parse(atob(playerData, "base64"));
 
 			if (!Object.keys(playerData.stages).length)
 				end 		= 1;

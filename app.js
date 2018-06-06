@@ -1,16 +1,23 @@
+// Debug var
+global.debug        = process.env.NODE_ENV !== "production";
+debug   = false;
+
 /*
     Requires
 */
 
 // Configuration file
-global.configFile   = require("./config");
+require("./config");
+
+// Package file
 global.packageFile  = require("./package");
 
 packageFile.userCookie  = "_gd";
 
 var express         = require("express"),
     cookieParser    = require("cookie-parser"),
-    env             = process.env;
+    compression     = require("compression"),
+    minify          = require("express-minify");
 
 global.fs           = require("fs");
 global.path         = require("path");
@@ -29,29 +36,11 @@ if (typeof process.stdout.getWindowSize === "function")
     for(var i = 0; i < process.stdout.getWindowSize()[1]; i++)
         console.log("\r\n");
 
-// Start Express
-log.info("Starting app express...", log.server);
-
-// Serve static files
-app.use(express.static("www"));
-
-// Cookie parser middleware
-app.use(cookieParser());
-
-// Start express
-server.listen(env.PORT || app_port, env.NODE_IP);
-
-log.info("-> Listening on port " + app_port, log.server);
-
 /* --------------------------------------------------------------------- */
 
 // Remove HTML
 String.prototype.htmlEntities   = function () {
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-};
-
-String.prototype.minify         = function() {
-    return this.replace(new RegExp("\n", "g"), "");
 };
 
 // Base 64 decode
@@ -69,7 +58,7 @@ global.btoa = function(str) {
 // XSS Protection
 app.use(function(req, res, next){
     res.header("X-XSS-Protection" , 0);
-    res.header("Access-Control-Allow-Origin", "http://" + app_host + ":" + app_port);
+    res.header("Access-Control-Allow-Origin", "http://" + process.env.NODE_IP || app_host + ":" + process.env.PORT || app_port);
 
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods", "POST GET");
@@ -78,6 +67,28 @@ app.use(function(req, res, next){
     return next();
 });
 
+// Start Express
+log.info("Starting app express...", log.server);
+
+// Cookie parser middleware
+app.use(cookieParser());
+
+if (!debug) {
+    // Compression middleware
+    app.use(compression());
+
+    // Minification middleware
+    app.use(minify());
+}
+
+// Serve static files
+app.use(express.static("www", { maxAge: (debug) ? 0 : 31557600 }));
+
 // Require API file handler
 require("./stages");
 require("./api");
+
+// Start express
+server.listen(process.env.PORT || app_port, process.env.NODE_IP);
+
+log.info("-> Listening on port " + app_port, log.server);
