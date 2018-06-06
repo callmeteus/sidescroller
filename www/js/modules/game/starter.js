@@ -14,10 +14,16 @@ jQuery.getScripts = function(scripts, callback) {
 		else
 			callback(scripts[progress], Math.round((progress / scripts.length) * 100));
 
-		$.getScript(scripts[progress], function() {
-		    progress++;
+		$.ajax({
+			type: 		"GET",
+			url: 		scripts[progress] + "?v=" + app_config.game_version,
+			success: 	function() {
+		    	progress++;
 
-		    _getScript();
+		    	_getScript();
+		    },
+		    dataType: 	"script",
+		    cache: 		true
 		});
 	};
 

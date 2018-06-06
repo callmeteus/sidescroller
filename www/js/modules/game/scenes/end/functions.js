@@ -2,10 +2,6 @@ function game_scene_end_stageCheck(data) {
 	// Set player stage data
 	game_stage_data_set(game_current_stage, data);
 
-	// Check for player win
-	if (data.win || data.prevWin)
-		return false;
-
 	// Get available stages
 	game_stage_available(function() {
 		// Prepare end screen data
@@ -21,5 +17,5 @@ function game_scene_end_stageCheck(data) {
 		});
 	});
 
-	return true;
+	return (data.win || data.prevWin);
 }

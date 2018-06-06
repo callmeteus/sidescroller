@@ -2,7 +2,7 @@ var Scene 		= Scene || {};
 
 /**
  * Game Over scene
- * @param  {Boolean} isWinner Player is winner?
+ * @param  {boolean} isWinner Player is winner?
  */
 Scene.end 		= function(isWinner) {
 	// Unload game
