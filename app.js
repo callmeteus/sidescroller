@@ -39,7 +39,7 @@ app.use(express.static("www"));
 app.use(cookieParser());
 
 // Start express
-server.listen(app_port || 80, env.NODE_IP);
+server.listen(env.PORT || app_port, env.NODE_IP);
 
 log.info("-> Listening on port " + app_port, log.server);
 
