@@ -34,22 +34,25 @@ function app_mustache_render(template, target, data, append, callback) {
  * @param  {Function} callback [the callback]
 */
 function app_mustache_load(file, target, data, append, callback) {
-	if (typeof app_mustache_cache[file] === "undefined")
-		$.get("inc/" + file + ".mustache", function(template) {
-			app_mustache_render(template, target, data, append, function(tpl) {
-				if (!append)
-					document.currentPage 	= file;
+	// Check for cache
+	if (typeof app_mustache_cache[file] !== "undefined")
+		// Render cached
+		return app_mustache_render(app_mustache_cache[file], target, data, append, callback);
 
-				$(window).trigger("pageload");
-				
+	// Load template
+	$.get("inc/" + file + ".mustache?v=" + app_config.game_version, function(template) {
+		// Render it
+		app_mustache_render(template, target, data, append, function(tpl) {
+			if (!append)
+				document.currentPage 	= file;
 
-				if (typeof callback === "function")
-					callback(tpl);
-			});
+			$(window).trigger("pageload");
 
-			// Cache template
-			app_mustache_cache[file] 	= template;
-		})
-	else
-		app_mustache_render(app_mustache_cache[file], target, data, append, callback);
+			if (typeof callback === "function")
+				callback(tpl);
+		});
+
+		// Cache the template
+		app_mustache_cache[file] 	= template;
+	});		
 }
