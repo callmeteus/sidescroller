@@ -4,6 +4,7 @@
 	"description": "Sidescroller Game",
 	"main": "app.js",
 	"scripts": {
+		"test": "node app.js",
 		"start": "node app.js"
 	},
 	"homepage": "https://github.com/theprometeus/sidescroller",
