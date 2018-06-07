@@ -89,7 +89,7 @@ function app_loader_progress(perc, isSecondary) {
 		}
 
 		var currentItem = items[current];
-		var currentPerc = ((current / items.length) * 100) / max;
+		var currentPerc = ((current / items.length) * 100) / (max - 1);
 
 		app_loader_set(loading.str + "(" + currentItem + ")", currentPerc);
 
