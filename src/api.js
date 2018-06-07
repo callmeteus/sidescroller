@@ -2,38 +2,39 @@ require("./scripts");
 
 /* ------------------------------------------------------------------------------------------------------- */
 
+app.all("js/modules/*", function(req, res) {
+	res.end();
+});
+
+app.use(function(req, res, next) {
+	var accept 	= req.accepts(["html", "js", "css", "mustache"]);
+
+	if (typeof app_cache[accept] !== "undefined")
+		res.setHeader("Cache-Control", "public, max-age=" + app_cache[accept]);
+	else
+		res.setHeader("Cache-Control", "public, max-age=" + app_cache.defualt);
+
+	next();
+});
+
 app.get("*.mustache", function(req, res, next) {
 	res.setHeader("Content-Type", "text/html");
 
 	if (!debug)
-		res.setHeader("Cache-Control", "public, max-age=86400");
+		res.setHeader("Cache-Control", "public, max-age=" + app_cache);
 	
 	next();
 });
 
-// game index
-app.get("/index.html", function(req, res, next) {
-	res.setHeader("Content-Type", "text/html");
-
-	if (!debug)
-		res.setHeader("Cache-Control", "public, max-age=86400");
-
-	res.render("index.html");
-});
-
 // game scripts
 app.get("/game.js", function(req, res) {
-	res.setHeader("Content-Type", "application/javascript");
+	res.setHeader("Content-Type", "application/javascript; charset=UTF-8");
 
 	var response 	= app_scripts;
 
-	if (!debug) {
+	if (!debug)
 		// Add function envelope
 		response 	= "(function(){" + app_minify_js(response) + "})();";
-
-		// Cache it
-		//res.setHeader("Cache-Control", "public, max-age=86400");
-	}
 
 	// Send response
 	res.end(response);
@@ -44,10 +45,7 @@ app.get("/game.js", function(req, res) {
 
 // game styles
 app.get("/game.css", function(req, res) {
-	res.setHeader("Content-Type", "text/css");
-	
-	if (!debug)
-		res.setHeader("Cache-Control", "public, max-age=86400");
+	res.setHeader("Content-Type", "text/css; charset=UTF-8");
 
 	res.end(app_styles);
 
@@ -56,7 +54,7 @@ app.get("/game.css", function(req, res) {
 });
 
 app.get("/api/stages", function(req, res) {
-	res.setHeader("Content-Type", "application/json");
+	res.setHeader("Content-Type", "application/json; charset=UTF-8");
 
 	var playerData 		= req.cookies[packageFile.userCookie];
 	var end 			= 1;
@@ -112,12 +110,12 @@ app.get("/api/stage/:id", function(req, res) {
 	if (typeof stage === "undefined")
 		return res.end();
 
-	var data 	= require("./maps/" + stage.file + ".json");
+	var data 	= require(path.join(app_dir, "../maps/" + stage.file + ".json"));
 
 	data.id 	= id;
 	data.name 	= stage.name;
 	data.image 	= stage.image;
 
-	res.setHeader("Content-Type", "application/json");
+	res.setHeader("Content-Type", "application/json; charset=UTF-8");
 	res.end(JSON.stringify(data));
 });

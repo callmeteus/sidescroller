@@ -137,7 +137,7 @@ function game_stage_reset() {
 
 /**
  * Get all available user game stages
- * @param  {Function} callback Callback function
+ * @param  {function} callback Callback function
  */
 function game_stage_available(callback) {
 	$.get("/api/stages", function(stages) {
@@ -146,7 +146,8 @@ function game_stage_available(callback) {
 		if (typeof callback === "function")
 			callback();
 
-		console.info("loaded", stages.length, "stages");
+		for(var stage in stages)
+			(new Image()).src 	= stages[stage].image;
 	});
 }
 

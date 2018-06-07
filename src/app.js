@@ -5,11 +5,14 @@ global.debug        = process.env.NODE_ENV !== "production";
     Requires
 */
 
+global.fs           = require("fs");
+global.path         = require("path");
+
 // Configuration file
 require("./config");
 
 // Package file
-global.packageFile  = require("./package");
+global.packageFile  = require("../package");
 
 packageFile.userCookie  = "_gd";
 
@@ -18,8 +21,6 @@ var express         = require("express"),
     compression     = require("compression"),
     minify          = require("express-minify");
 
-global.fs           = require("fs");
-global.path         = require("path");
 
 /* --------------------------------------------------------------------- */
 
@@ -81,7 +82,7 @@ if (!debug) {
 }
 
 // Serve static files
-app.use(express.static("www", { maxAge: (debug) ? 0 : 31557600 }));
+app.use(express.static(app_dir, { maxAge: (debug) ? 0 : app_cache.default }));
 
 // Require API file handler
 require("./stages");

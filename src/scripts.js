@@ -9,7 +9,7 @@ app_get_scripts = function() {
 	app_scripts 		= "";
 
 	// Glob all JS modules
-	glob("www/js/modules/**/*.js", function(err, files) {
+	glob(path.join(app_dir, "/js/modules/**/*.js"), function(err, files) {
 		if (err)
 			throw err;
 
@@ -36,7 +36,7 @@ app_get_styles 	= function() {
 	app_styles 			= "";
 
 	// Glob all CSS modules
-	glob("www/css/modules/**/*.css", function(err, files) {
+	glob(path.join(app_dir, "/css/modules/**/*.css"), function(err, files) {
 		if (err)
 			throw err;
 

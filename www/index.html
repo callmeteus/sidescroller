@@ -6,16 +6,26 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 
 	<title>Sidescroller</title>
-
-	<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="game.css" rel="stylesheet" type="text/css">
 </head>
-<body class="modal-open">
-	<script src="js/lib/jquery.js"></script>
-	<script src="js/lib/cookie.js"></script>
-	<script src="js/lib/mustache.js"></script>
-	<script src="js/lib/bootstrap.js"></script>
+<body>
+	<div id="game-loader" tabindex="-1">
+		<div class="align-absolute-center text-center">
+			<h3>Loading...</h3>
 
-	<script src="game.js"></script>
+			<small>
+				<span class="game-loader-msg">Loading</span> <span class="game-loader-current">assets</span>...
+			</small>
+
+			<div class="progress progress-current mt-3">
+				<div class="progress-bar progress-bar-stripped bg-secondary"></div>
+			</div>
+
+			<div class="progress progress-all mt-3">
+				<div class="progress-bar progress-bar-stripped bg-primary"></div>
+			</div>
+		</div>
+	</div>
+
+	<script defer async src="js/loader.js"></script>
 </body>
 </html>

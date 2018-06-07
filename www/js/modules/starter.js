@@ -1,1 +1,0 @@
-app_mustache_load("loader", document.body, null, true);
