@@ -28,90 +28,64 @@ function app_loader_progress(perc, isSecondary) {
 }
 
 (function() {
-	var styles 		= ["https://fonts.googleapis.com/css?family=Baloo", "css/bootstrap.css", "/game.css?v=1"];
-	var libraries 	= ["jquery", "cookie", "mustache", "bootstrap", "phaser", "phaser.tilemap.plus", "fontawesome"];
+	var toLoad 		= {
+		"styles;text/css;style": 		
+			["//fonts.googleapis.com/css?family=Baloo", "css/bootstrap.css", "/game.css"],
+		"libraries;application/javascript;script": 		
+			["js/lib/jquery.js", "js/lib/cookie.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
+	}
 
-	function _loadStyle(style) {
+	function _loader(src, type, tag, callback) {
 		var req 			= new XMLHttpRequest();
 
 		req.addEventListener("progress", (e) => (e.lengthComputable) ? app_loader_progress((e.loaded / e.total) * 100, true) : "");
 
 		req.addEventListener("load", function(e) {
-			var s 			= document.createElement("style");
+			var s 			= document.createElement(tag);
 
-			s.type 			= "text/css";
+			s.type 			= type;
 			s.innerHTML 	= e.target.responseText;
 
 			document.head.appendChild(s);
 
 			app_loader_progress(100, true);
 
-			_doStyles();
+			callback();
 		});
 
-		req.open("GET", style);
+		req.open("GET", src);
 		req.send();
-	};
-
-	function _loadScript(script) {
-		var req 			= new XMLHttpRequest();
-
-		req.addEventListener("progress", (e) => (e.lengthComputable) ? app_loader_progress((e.loaded / e.total) * 100, true) : "");
-
-		req.addEventListener("load", function(e) {
-			var s 			= document.createElement("script");
-
-			s.type 			= "text/javascript";
-			s.innerHTML 	= e.target.responseText;
-
-			document.head.appendChild(s);
-
-			app_loader_progress(100, true);
-
-			_doScripts();
-		});
-
-		req.open("GET", script);
-		req.send();
-	};
+	}
 
 	var current 		= 0;
-	function _doScripts() {
-		var currentLib 	= libraries[current];
+	var currentIndex 	= 0;
 
-		if (current > libraries.length)
-			return false;
+	(function _do() {
+		var index 		= Object.keys(toLoad)[currentIndex];
 
-		if (current === libraries.length) {
-			app_loader_set("game", 90);
-			_loadScript("game.js");
+		if (typeof index === "undefined")
+			return true;
 
-			current 	= libraries.length + 1;
-		} else {
-			_loadScript("js/lib/" + currentLib + ".js");
-			current++;
+		var array 		= toLoad[index];
+		var data 		= index.split(";");
 
-			app_loader_set("libraries (" + currentLib + ")", ((current - 1) / libraries.length) * 100);
-		}
-	}
+		var str 		= data[0];
+		var type 		= data[1];
+		var tag 		= data[2];
 
-	function _doStyles() {
-		var currentStyle 	= styles[current];
-
-		if (current > styles.length)
-			return false;
-
-		if (current === styles.length) {
-			app_loader_set("libraries", 50);
+		if (current === array.length) {
 			current 	= 0;
-			_doScripts();
-		} else {
-			_loadStyle(currentStyle);
-			current++;
-
-			app_loader_set("styles (" + currentStyle + ")", ((current - 1) / styles.length) * 100);
+			currentIndex++;
+			return _do();
 		}
-	}
 
-	_doStyles();
+		var currentItem = array[current];
+		var currentPerc = ((current / array.length) * 100) / Object.keys(toLoad).length;
+
+		app_loader_set(str + "(" + currentItem + ")", currentPerc);
+
+		_loader(currentItem, type, tag, () => _do());
+
+		current++;
+	})();
 })();
