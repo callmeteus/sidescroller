@@ -2,10 +2,6 @@ require("./scripts");
 
 /* ------------------------------------------------------------------------------------------------------- */
 
-app.all("js/modules/*", function(req, res) {
-	res.end();
-});
-
 app.use(function(req, res, next) {
 	var accept 	= req.accepts(["html", "js", "css", "mustache"]);
 

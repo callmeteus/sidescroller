@@ -9,7 +9,7 @@ app_get_scripts = function() {
 	app_scripts 		= "";
 
 	// Glob all JS modules
-	glob(path.join(app_dir, "/js/modules/**/*.js"), function(err, files) {
+	glob(path.join(app_dir, "/js/modules/**/?(game|*).js"), function(err, files) {
 		if (err)
 			throw err;
 

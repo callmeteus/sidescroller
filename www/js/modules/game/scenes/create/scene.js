@@ -1,31 +1,33 @@
-var Scene 		= Scene || {};
+Sidescroller.Scenes.create 	= function() {
+	Sidescroller.Game.scale.pageAlignHorizontally 			= true;
+    Sidescroller.Game.scale.pageAlignVertically 			= true;
 
-Scene.create 	= function() {
-	game.scale.pageAlignHorizontally 		= true;
-    game.scale.pageAlignVertically 			= true;
+	Sidescroller.Game.scale.forceOrientation(false, true);
 
-	game.scale.forceOrientation(false, true);
+	Sidescroller.Game.scale.scaleMode 						= Phaser.ScaleManager.RESIZE;
+	Sidescroller.Game.scale.fullScreenScaleMode 			= Phaser.ScaleManager.RESIZE;
 
-	game.scale.scaleMode 					= Phaser.ScaleManager.USER_SCALE;
-	game.scale.setUserScale(4, 4);
+	Sidescroller.Game.scale.refresh();
 
-	game.renderer.renderSession.roundPixels = true;
-	game.stage.smoothed 					= true;
-
-	game.scale.updateLayout(true);
-	game.scale.refresh();
+	Sidescroller.Game.renderer.renderSession.roundPixels 	= true;
+	Sidescroller.Game.stage.smoothed 						= true;
 
 	/* ---------------------------------------------------------------------- */
 
-	game.stage.backgroundColor 				= "transparent";
+	Sidescroller.Game.stage.backgroundColor 				= "transparent";
 
-	game.time.advancedTiming 				= true;
+	Sidescroller.Game.time.advancedTiming 					= true;
 
 	// Enable physics
-	game.physics.startSystem(Phaser.Physics.ARCADE);
+	Sidescroller.Game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	// Enable tilemap plus
-	game.plugins.add(Phaser.Plugin.TilemapPlus);
+	Sidescroller.Game.plugins.add(Phaser.Plugin.TilemapPlus);
 
-	game.input.onDown.add(MapEvent.click, game);
+	// Register events
+	Sidescroller.Game.input.addMoveCallback(Sidescroller.Events.POINTER_MOVE, game);		// Pointer move
+	Sidescroller.Game.input.onDown.add(Sidescroller.Events.POINTER_DOWN, game); 			// Pointer down
+
+	// Load menu
+	Sidescroller.Scenes.menu();
 };

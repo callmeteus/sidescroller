@@ -36,11 +36,11 @@
 			</div>
 
 			<div class="modal-body row mx-1 justify-content-around">
-				{{#game_stages}}
+				{{#Stages.list}}
 					<div data-id="{{id}}" class="game-stage col-5 {{#done}}disabled{{/done}}" style="background-image:url({{image}})">
 						<h3 class="game-stage-title">{{name}}</h3>
 					</div>
-				{{/game_stages}}
+				{{/Stages.list}}
 			</div>
 
 			<div class="modal-footer">

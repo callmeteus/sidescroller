@@ -3,7 +3,7 @@ $(document).on("click touchstart", "#game-menu #game-button-stage-selector", fun
 	e.preventDefault();
 
 	// Hide all modals and then show stage selector modal
-	game_modal_hideAll(() => Scene.stageSelector());
+	game_modal_hideAll(() => Sidescroller.Scenes.stageSelector());
 });
 
 // On stage select
@@ -11,7 +11,7 @@ $(document).on("click touchstart", "#game-stage-selector .game-stage", function(
 	$(".game-stage.active").removeClass("active");
 	$(this).addClass("active");
 
-	game_current_stage 	= $(this).data("id");
+	Sidescroller.Stages.current 	= $(this).data("id");
 
 	$("#game-stage-selector #game-button-start").prop("disabled", false);
 });

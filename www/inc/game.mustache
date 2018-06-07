@@ -1,12 +1,12 @@
 <div id="game-inventory">
-	{{ #game_items }}
+	{{ #Items.list }}
 	<div class="game-item img-thumbnail" title="{{ name }}">
 		<div class="game-item-image" style="background-image:url('{{ image }}')" data-id="{{ id }}"></div>
 	</div>
-	{{ /game_items }}
+	{{ /Items.list }}
 </div>
 
-<div id="game-stats" class="row">
+<div id="game-stats">
 	<div class="float-left img-thumbnail container">
 		<i class="fa fa-fw fa-coins mr-1"></i><span class="game-points">0</span>
 	</div>

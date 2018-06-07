@@ -10,7 +10,7 @@ var app_mustache_cache 	= {};
 */
 function app_mustache_render(template, target, data, append, callback) {
 	Mustache.parse(template);
-	template 			= Mustache.render(template, Object.assign({}, app_config, data));
+	template 			= Mustache.render(template, Object.assign({}, app_config, Sidescroller, data));
 
 	if (target != null) {
 		var $target 	= $(target);

@@ -1,19 +1,17 @@
-var Scene 		= Scene || {};
+Sidescroller.Scenes.update 	= function() {
+	if (Sidescroller.Game.isLoaded) {
+    	Sidescroller.Game.player.body.acceleration.x 	= Sidescroller.Game.player.acceleration;
+    	Sidescroller.Game.player.body.acceleration.y 	= 1000;
 
-Scene.update 	= function() {
-	if (game.isLoaded) {
-    	game.player.body.acceleration.x 	= game.player.acceleration;
-    	game.player.body.acceleration.y 	= 1000;
+    	Sidescroller.Game.player.points 					+= (Math.abs(Sidescroller.Game.player.body.velocity.x) / 10000);
 
-    	game.player.points 					+= (Math.abs(game.player.body.velocity.x) / 10000);
+        $(".game-points").text(Math.round(Sidescroller.Game.player.points));
 
-        $(".game-points").text(Math.round(game.player.points));
+    	if (Sidescroller.Game.player.y >= (Sidescroller.Game.tilemap.height * Sidescroller.Game.tilemap.tileHeight))
+    		return Sidescroller.Scenes.end();
 
-    	if (game.player.y >= (game.tilemap.height * game.tilemap.tileHeight))
-    		return Scene.end();
-
-    	game.tilemap.plus.events.regions.triggerWith(game.player);
-    	game.tilemap.plus.physics.collideWith(game.player);
-    	game.physics.arcade.collide(game.player, game.mapItems);
+    	Sidescroller.Game.tilemap.plus.events.regions.triggerWith(Sidescroller.Game.player);
+    	Sidescroller.Game.tilemap.plus.physics.collideWith(Sidescroller.Game.player);
+    	Sidescroller.Game.physics.arcade.collide(Sidescroller.Game.player, Sidescroller.Game.mapItems);
     }
 }

@@ -1,37 +1,37 @@
-function game_stage_load(mapName, callback) {
+Sidescroller.Stages.load 	= function(mapName, callback) {
 	var tileset 				= "tileset_" + mapName;
 	var tilemap 				= "tilemap_" + mapName;
 
-	game.mapItems 				= game.add.spriteBatch();
-	game.layers 				= {};
+	Sidescroller.Game.mapItems 				= Sidescroller.Game.add.spriteBatch();
+	Sidescroller.Game.layers 				= {};
 
-	game.load.tilemap(tilemap, "api/stage/" + mapName, null, Phaser.Tilemap.TILED_JSON);
-	game.load.image(tileset, "img/tilemap.png");
+	Sidescroller.Game.load.tilemap(tilemap, "api/stage/" + mapName, null, Phaser.Tilemap.TILED_JSON);
+	Sidescroller.Game.load.image(tileset, "img/tilemap.png");
 
-	game.load.onLoadComplete.addOnce(function() {
-		game.tilemap 			= game.add.tilemap(tilemap);
-		game.tilemap.helpers 	= {};
+	Sidescroller.Game.load.onLoadComplete.addOnce(function() {
+		Sidescroller.Game.tilemap 			= Sidescroller.Game.add.tilemap(tilemap);
+		Sidescroller.Game.tilemap.helpers 	= {};
 
-		for(var helper in game.tilemap.objects.helpers) {
-			helper 				= game.tilemap.objects.helpers[helper];
-			game.tilemap.helpers[helper.name] 	= helper;
+		for(var helper in Sidescroller.Game.tilemap.objects.helpers) {
+			helper 				= Sidescroller.Game.tilemap.objects.helpers[helper];
+			Sidescroller.Game.tilemap.helpers[helper.name] 	= helper;
 		}
 
-		game.foreGroundTileset 	= game.tilemap.addTilesetImage("Kenney", tileset);
-		game.layers.foreground	= game.tilemap.createLayer("foreground");
+		Sidescroller.Game.foreGroundTileset 	= Sidescroller.Game.tilemap.addTilesetImage("Kenney", tileset);
+		Sidescroller.Game.layers.foreground	= Sidescroller.Game.tilemap.createLayer("foreground");
 
-		game.groundTileset 		= game.tilemap.addTilesetImage("Kenney", tileset);
-		game.layers.ground 		= game.tilemap.createLayer("ground");
+		Sidescroller.Game.groundTileset 		= Sidescroller.Game.tilemap.addTilesetImage("Kenney", tileset);
+		Sidescroller.Game.layers.ground 		= Sidescroller.Game.tilemap.createLayer("ground");
 
-		game.layers.ground.resizeWorld();
+		Sidescroller.Game.layers.ground.resizeWorld();
 
-		game.tilemap.plus.physics.enableObjectLayer("collision");
-		game.tilemap.plus.events.regions.enableObjectLayer("helpers");
+		Sidescroller.Game.tilemap.plus.physics.enableObjectLayer("collision");
+		Sidescroller.Game.tilemap.plus.events.regions.enableObjectLayer("helpers");
 
 		callback();
 	});
 
-	game.load.start();
+	Sidescroller.Game.load.start();
 }
 
 /**
@@ -41,127 +41,129 @@ function game_stage_load(mapName, callback) {
  * @param  {[type]} y     Item Y
  * @return {[type]}       Return "false" if it's not a ground tile
  */
-function game_stage_spawn(item, x, y) {
-	var tile 							= game.tilemap.getTileWorldXY(x, y, game.tilemap.tileWidth, game.tilemap.tileHeight, game.layers.ground);
+Sidescroller.Stages.spawn 	= function(item, x, y) {
+	var tile 							= Sidescroller.Game.tilemap.getTileWorldXY(x, y, Sidescroller.Game.tilemap.tileWidth, Sidescroller.Game.tilemap.tileHeight, Sidescroller.Game.layers.ground);
 
 	if (tile !== null && tile.layer.name === "ground")
 		return false;
 
-	var sprite 							= game.add.sprite(x, y + 1.5, item);
-	game.physics.enable(sprite);
+	var sprite 							= Sidescroller.Game.add.sprite(x, y + 1.5, item);
+	Sidescroller.Game.physics.enable(sprite);
 
 	sprite.body.immovable 				= true;
 	sprite.body.collideWorldBounds 		= true;
 
-	game.mapItems.add(sprite);
+	Sidescroller.Game.mapItems.add(sprite);
 }
 
 /**
  * Function to create the cursor marker
  */
-function game_stage_createMarker() {
-	if (game.cursorMarker)
+Sidescroller.Stages.createMarker 	= function() {
+	if (Sidescroller.Game.cursorMarker)
 		return;
 
-	game.cursorMarker 					= game.add.graphics();
-    game.cursorMarker.lineStyle(2, 0xffffff, 1);
-    game.cursorMarker.drawRect(0, 0, game.tilemap.tileWidth, game.tilemap.tileHeight);
-
-    game.input.addMoveCallback(MapEvent.move, game);
+	Sidescroller.Game.cursorMarker 					= Sidescroller.Game.add.graphics();
+    Sidescroller.Game.cursorMarker.lineStyle(2, 0xffffff, 1);
+    Sidescroller.Game.cursorMarker.drawRect(0, 0, Sidescroller.Game.tilemap.tileWidth, Sidescroller.Game.tilemap.tileHeight);
 }
 
 /**
  * Function to create the player
  */
-function game_stage_createPlayer() {
-	this.lerpAmount 					= 0.020;
+Sidescroller.Stages.createPlayer 	= function() {
+	/*
+		TODO
+		Default camera lerp is 0.020
+		Removed because camera was not following player in high velocities
+	*/
+	this.lerpAmount 					= 0.8;
 
-	if (game.player) {
-		game.player.kill();
-		delete(game.player);
+	if (Sidescroller.Game.player) {
+		Sidescroller.Game.player.kill();
+		delete(Sidescroller.Game.player);
 	}
 
-	game.player 					= game.add.sprite(0, 0, "player");
+	Sidescroller.Game.player 					= Sidescroller.Game.add.sprite(0, 0, "player");
 
-	game.player.collideWorldBounds 	= true;
-	game.physics.arcade.enable(game.player);
+	Sidescroller.Game.player.collideWorldBounds = true;
+	Sidescroller.Game.physics.arcade.enable(Sidescroller.Game.player);
 
-	game.player.body.allowGravity 	= true;
-	game.player.body.bounce.set(0.8);
-	game.player.body.gravity.set(0, 1000);
+	Sidescroller.Game.player.body.allowGravity 	= true;
+	Sidescroller.Game.player.body.bounce.set(0.8);
+	Sidescroller.Game.player.body.gravity.set(0, 1000);
 
 	// Set camera follow event
-	game.camera.follow(game.player, Phaser.Camera.FOLLOW_LOCKON, this.lerpAmount, this.lerpAmount);
+	Sidescroller.Game.camera.follow(Sidescroller.Game.player, Phaser.Camera.FOLLOW_LOCKON, this.lerpAmount, this.lerpAmount);
 
 	// Set region enter event
-	game.tilemap.plus.events.regions.onEnterAdd(game.player, MapEvent.regionEnter);
+	Sidescroller.Game.tilemap.plus.events.regions.onEnterAdd(Sidescroller.Game.player, Sidescroller.Events.MAP_REGION_ENTER);
 
 	/* ---------------------------------------------------------------------- */
 
-	game.player.points 				= 0;
-	game.player.timer 				= 0;
-	game.player.x 					= game.tilemap.helpers.start.x + (game.player.width);
-	game.player.y 					= game.tilemap.helpers.start.y + game.tilemap.tileHeight;
+	Sidescroller.Game.player.points 			= 0;
+	Sidescroller.Game.player.timer 				= 0;
+	Sidescroller.Game.player.x 					= Sidescroller.Game.tilemap.helpers.start.x + (Sidescroller.Game.player.width);
+	Sidescroller.Game.player.y 					= Sidescroller.Game.tilemap.helpers.start.y + Sidescroller.Game.tilemap.tileHeight;
 
 	/* ---------------------------------------------------------------------- */	
 
-	game.player.currentItem 		= game_items[0];
-	game.player.acceleration 		= 50;
+	// Just for debug
+	Sidescroller.Game.player.currentItem 		= Sidescroller.Items.get(0);
+	Sidescroller.Game.player.acceleration 		= 50;
 }
 
 /**
  * Reset the game stage
  */
-function game_stage_reset() {
-	if (typeof game.layers === "undefined")
+Sidescroller.Stages.reset 	= function() {
+	if (typeof Sidescroller.Game.layers === "undefined")
 		return;
 
 	// Remove all map items
-	game.mapItems.callAll("kill");
-	delete(game.mapItems);
+	Sidescroller.Game.mapItems.callAll("kill");
+	delete(Sidescroller.Game.mapItems);
 
 	// Remove map cursor
-	game.cursorMarker.kill();
-	delete(game.cursorMarker);
+	Sidescroller.Game.cursorMarker.kill();
+	delete(Sidescroller.Game.cursorMarker);
 
 	// Destroy current tilemap
-	game.tilemap.destroy();
-	delete(game.tilemap);
+	Sidescroller.Game.tilemap.destroy();
+	delete(Sidescroller.Game.tilemap);
 
 	// Clear all game layers
-	for(var layer in game.layers)
-		game.layers[layer].destroy();
+	for(var layer in Sidescroller.Game.layers)
+		Sidescroller.Game.layers[layer].destroy();
 
-	delete(game.layers);
+	delete(Sidescroller.Game.layers);
 }
 
 /**
  * Get all available user game stages
  * @param  {function} callback Callback function
  */
-function game_stage_available(callback) {
+Sidescroller.Stages.get 			= function(callback) {
 	$.get("/api/stages", function(stages) {
-		game_stage_list 	= stages;
+		Sidescroller.Stages.list 	= stages;
 
 		if (typeof callback === "function")
 			callback();
-
-		for(var stage in stages)
-			(new Image()).src 	= stages[stage].image;
 	});
 }
 
-function game_stage_data_get(stageId) {
-	if (typeof game_player_data_get("stages." + stageId) === "undefined")
-		game_player_data_set("stages." + stageId, {
+Sidescroller.Player.Data.Stages 	= {};
+Sidescroller.Player.Data.Stages.get = function(stageId) {
+	if (typeof Sidescroller.Player.Data.get("stages." + stageId) === "undefined")
+		Sidescroller.Player.Data.set("stages." + stageId, {
 			win: 	false,
 			score: 	0,
 			time: 	0
 		}, true);
 
-	return game_player_data_get("stages." + stageId);
+	return Sidescroller.Player.Data.get("stages." + stageId);
 }
 
-function game_stage_data_set(stageId, data) {
-	return game_player_data_set("stages." + stageId, data, true);
+Sidescroller.Player.Data.Stages.set = function(stageId, data) {
+	return Sidescroller.Player.Data.set("stages." + stageId, data, true);
 }

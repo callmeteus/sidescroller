@@ -1,21 +1,19 @@
 var game;
-var $container 			= $("<div/>").appendTo("body");
-
-var game_current_stage 	= null;
+var $container 					= $("<div/>").appendTo("body");
 
 /* ---------------------------------------------------------- */
 
 (function() {
-	game 				= new Phaser.Game(
-		1280,
-		720,
+	Sidescroller.Game			= new Phaser.Game(
+		"100%",
+		"100%",
 		Phaser.AUTO,
 		"",
 		{
-			preload: 	Scene.preload, 
-			create: 	Scene.create, 
-			update: 	Scene.update, 
-			render: 	Scene.render 
+			preload: 	Sidescroller.Scenes.preload, 
+			create: 	Sidescroller.Scenes.create, 
+			update: 	Sidescroller.Scenes.update, 
+			render: 	Sidescroller.Scenes.render 
 		}, 
 		true
 	);

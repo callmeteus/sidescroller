@@ -1,14 +1,16 @@
 function game_scene_end_stageCheck(data) {
 	// Set player stage data
-	game_stage_data_set(game_current_stage, data);
+	Sidescroller.Player.Data.Stages.set(Sidescroller.Stages.current, Object.assign(data, {
+		win: 	(data.prevWin) ? true : data.win
+	}));
 
 	// Get available stages
-	game_stage_available(function() {
+	Sidescroller.Stages.get(function() {
 		// Prepare end screen data
 		data 				= Object.assign(data, {
-			stage: 			game_stage_list[game_current_stage],
+			stage: 			Sidescroller.Stages.list[Sidescroller.Stages.current],
 			time: 			data.time.fancyTimeFormat(),
-			next: 			(game_stage_list.length-1 > game_current_stage) && (data.win || data.prevWin)
+			next: 			(Sidescroller.Stages.list.length-1 > Sidescroller.Stages.current) && (data.win || data.prevWin)
 		});
 
 		// Load game end screen

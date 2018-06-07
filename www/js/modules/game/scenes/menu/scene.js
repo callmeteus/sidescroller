@@ -1,27 +1,19 @@
-var Scene 						= Scene || {};
-
-Scene.menu 						= function(callback) {
-	var data 					= {
-		game_items: 	game_items
-	};
-
+Sidescroller.Scenes.menu 		= function(callback) {
 	// Load game container
-	app_mustache_load("game", document.body, data, true, function() {
+	app_mustache_load("game", document.body, null, true, function() {
 		// Load all unlocked stages
-		game_stage_available(function() {
-			data.game_stages 	= game_stage_list;
-
+		Sidescroller.Stages.get(function() {
 			// Load menu
-			app_mustache_load("menu", $container, data, false, function() {
+			app_mustache_load("menu", $container, null, false, function() {
 				// Check if game is loaded
-				if (typeof game.layers !== "undefined")
+				if (typeof Sidescroller.Game.layers !== "undefined")
 					// Hide game
 					game_fadeOut(function() {
 						// Reset game stage
-						game_stage_reset();
+						Sidescroller.Stages.reset();
 
 						// Recreate the game
-						Scene.create();
+						Sidescroller.Scenes.create();
 					});
 
 				if (typeof callback === "function")

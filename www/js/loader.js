@@ -34,7 +34,7 @@ function app_loader_progress(perc, isSecondary) {
 			type: 	"text/css",
 			tag: 	"style",
 			items:
-			["//fonts.googleapis.com/css?family=Baloo", "css/bootstrap.css", "/game.css"]
+			["css/bootstrap.css", "/game.css"]
 		},
 		{
 			str: 	"scripts",
@@ -60,7 +60,8 @@ function app_loader_progress(perc, isSecondary) {
 
 			app_loader_progress(100, true);
 
-			callback();
+			if (typeof callback === "function")
+				callback();
 		});
 
 		req.open("GET", src);
@@ -97,4 +98,7 @@ function app_loader_progress(perc, isSecondary) {
 
 		current++;
 	})();
+
+	// Load fonts
+	_loader("//fonts.googleapis.com/css?family=Baloo", "text/css", "style");
 })();

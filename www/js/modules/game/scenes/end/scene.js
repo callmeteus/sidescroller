@@ -1,41 +1,39 @@
-var Scene 		= Scene || {};
-
 /**
  * Game Over scene
  * @param  {boolean} isWinner Player is winner?
  */
-Scene.end 		= function(isWinner) {
+Sidescroller.Scenes.end 		= function(isWinner) {
 	// Unload game
-	game.isLoaded 						= false;
+	Sidescroller.Game.isLoaded 						= false;
 
 	// Stop game timer
-	game_timer_stop();
+	Sidescroller.Timer.stop();
 
 	// Update player points
-	game.player.points 					= Math.round(game.player.points);
+	Sidescroller.Game.player.points 					= Math.round(Sidescroller.Game.player.points);
 
 	// Reset player acceleration if he wins the game
 	if (isWinner) {
-		game.player.body.reset(0, 0);
-		game.player.body.allowGravity 	= false;
+		Sidescroller.Game.player.body.reset(0, 0);
+		Sidescroller.Game.player.body.allowGravity 	= false;
 	}
 
 	// Reset camera target
-	game.camera.target 					= null;
+	Sidescroller.Game.camera.target 					= null;
 
 	/* ------------------------------------------------------------------------ */
 
 	var data 			= {
 		win: 			(isWinner) ? true : false,
-		time: 			game.player.timer,
-		score: 			game.player.points,
+		time: 			Sidescroller.Game.player.timer,
+		score: 			Sidescroller.Game.player.points,
 		prevWin: 		false
 	};
 
-	var currentData 	= game_stage_data_get(game_current_stage);
+	var currentData 	= Sidescroller.Player.Data.Stages.get(Sidescroller.Stages.current);
 
 	// Check if player already passed this stage
-	if (typeof currentData !== "undefined" && currentData.win)
+	if (typeof currentData !== "undefined" && currentData.done)
 		data.prevWin 	= true;
 
 	// Do stage check

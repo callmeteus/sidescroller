@@ -25,17 +25,20 @@
 	cursor: pointer;
 }
 
-#game-stage-selector .game-stage:hover,
-#game-stage-selector .game-stage.active {
-	opacity: 1 !important;
-}
-
-#game-stage-selector .game-stage.active {
-	border-color: var(--success);
-}
-
 #game-stage-selector .game-stage.disabled {
-	opacity: 0.75;
+	opacity: 0.5;
+	filter: grayscale(50%);
+}
+
+#game-stage-selector .game-stage.disabled:not(.active):hover {
+	opacity: 0.8;
+	filter: grayscale(25%);
+}
+
+#game-stage-selector .game-stage.active {
+	opacity: 1;
+	filter: none;
+	border-color: var(--success);
 }
 
 #game-stage-selector .game-stage:after {

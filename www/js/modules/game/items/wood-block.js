@@ -1,7 +1,4 @@
-var game_items 		= game_items || [];
-
-game_items.push({
-	id: 			game_items.length,
+Sidescroller.Items.add({
 	name: 			"Wood Block",
 	description: 	"A normal wood block.",
 	image: 			"img/items/block.png"

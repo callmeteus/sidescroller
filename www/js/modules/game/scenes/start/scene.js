@@ -1,25 +1,25 @@
 var Scene 		= Scene || {};
 
-Scene.start 	= function() {
+Sidescroller.Scenes.start 	= function() {
 	// Reset game stage
-	game_stage_reset();
+	Sidescroller.Stages.reset();
 
 	// Load current stage
-	game_stage_load(game_current_stage, function() {
+	Sidescroller.Stages.load(Sidescroller.Stages.current, function() {
 		// Create player
-		game_stage_createPlayer();
+		Sidescroller.Stages.createPlayer();
 
 		// Create block marker
-		game_stage_createMarker();
+		Sidescroller.Stages.createMarker();
 
 		game_fadeIn();
 
 	    /* ---------------------------------------------------------------------- */
 
 	    // Set game to loaded
-	    game.isLoaded 					= true;
+	    Sidescroller.Game.isLoaded 					= true;
 
 		// Start game timer
-		game_timer_start(true);
+		Sidescroller.Timer.start(true);
 	});
 };
