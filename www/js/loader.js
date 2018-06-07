@@ -28,12 +28,22 @@ function app_loader_progress(perc, isSecondary) {
 }
 
 (function() {
-	var toLoad 		= {
-		"styles;text/css;style": 		
-			["//fonts.googleapis.com/css?family=Baloo", "css/bootstrap.css", "/game.css"],
-		"libraries;application/javascript;script": 		
+	var toLoad 		= [
+		{
+			str: 	"styles",
+			type: 	"text/css",
+			tag: 	"style",
+			items:
+			["//fonts.googleapis.com/css?family=Baloo", "css/bootstrap.css", "/game.css"]
+		},
+		{
+			str: 	"scripts",
+			type: 	"application/javascript",
+			tag: 	"script",
+			items:	
 			["js/lib/jquery.js", "js/lib/cookie.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
-	}
+		}
+	];
 
 	function _loader(src, type, tag, callback) {
 		var req 			= new XMLHttpRequest();
@@ -59,32 +69,31 @@ function app_loader_progress(perc, isSecondary) {
 
 	var current 		= 0;
 	var currentIndex 	= 0;
+	var keys 			= Object.keys(toLoad);
+	var max 			= keys.length;
 
 	(function _do() {
-		var index 		= Object.keys(toLoad)[currentIndex];
+		var index 		= keys[currentIndex];
 
 		if (typeof index === "undefined")
 			return true;
 
-		var array 		= toLoad[index];
-		var data 		= index.split(";");
+		var loading 	= toLoad[index];
+		var items 		= loading.items;
 
-		var str 		= data[0];
-		var type 		= data[1];
-		var tag 		= data[2];
-
-		if (current === array.length) {
+		if (current === items.length) {
 			current 	= 0;
 			currentIndex++;
+
 			return _do();
 		}
 
-		var currentItem = array[current];
-		var currentPerc = ((current / array.length) * 100) / Object.keys(toLoad).length;
+		var currentItem = items[current];
+		var currentPerc = ((current / items.length) * 100) / max;
 
-		app_loader_set(str + "(" + currentItem + ")", currentPerc);
+		app_loader_set(loading.str + "(" + currentItem + ")", currentPerc);
 
-		_loader(currentItem, type, tag, () => _do());
+		_loader(currentItem, loading.type, loading.tag, () => _do());
 
 		current++;
 	})();
