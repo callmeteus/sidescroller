@@ -1,26 +1,24 @@
-// Game Start button click
-$(document).on("click touchstart", "#game-button-start", function(e) {
+// Game button click
+$(document).on("click touchstart", ".game-button", function(e) {
 	e.preventDefault();
 
-	// Hide all open modals and go to game start scene
-	game_modal_hideAll(() => Scene.start());
-});
+	switch($(this).attr("id").replace("game-button-", "")) {
+		// Next stage button
+		case "next":
+			// Increase current stage
+			game_current_stage++;
 
-// Game Next Stage button click
-$(document).on("click touchstart", "#game-button-next", function(e) {
-	e.preventDefault();
+		// Start and next stage button
+		case "start":
+		case "next":
+			// Hide all open modals and go to game start scene
+			game_modal_hideAll(() => Scene.start());
+		break;
 
-	// Increase current stage
-	game_current_stage++;
-
-	// Hide all open modals and go to game start scene
-	game_modal_hideAll(() => Scene.start());
-});
-
-// Game Menu button click
-$(document).on("click touchstart", "#game-button-menu", function(e) {
-	e.preventDefault();
-
-	// Hide all open modals and go to menu scene
-	game_modal_hideAll(() => Scene.menu());
+		// Menu button
+		case "menu":
+			// Hide all open modals and go to menu scene
+			game_modal_hideAll(() => Scene.menu());
+		break;
+	}
 });
