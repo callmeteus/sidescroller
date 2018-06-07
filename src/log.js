@@ -38,41 +38,40 @@ function _log(color, type, txt, type2) {
 		txt = txt.replace(colors[c], "");
 
 	logf.write(txt + "\n");
+
+	return true;
+}
+
+function _format(args) {
+	var msg = "";
+
+	for (var i = 0; i < args.length - 1; i++)
+		if (typeof args[i] === "object")
+			msg += JSON.stringify(args[i]) + " "
+		else
+			msg += args[i] + " ";
+
+	return msg;
+}
+
+function _logger(color, type, args) {
+	return _log(color, type, _format(args), args[args.length - 1]);
 }
 
 function debug() {
-	if (!global.debug)
-		return;
-	
-	var msg = "";
-	for (var i = 0; i < arguments.length - 1; i++)
-		msg = msg + arguments[i] + " ";
-
-	_log(colors.Green, "d", msg, arguments[arguments.length-1]);
+	return (global.debug) ? _logger(colors.Green, "d", arguments) : false;
 }
 
 function info() {
-	var msg = "";
-	for (var i = 0; i < arguments.length-1; i++)
-		msg = msg + arguments[i] + " ";
-
-	_log(colors.Cyan, "i", msg, arguments[arguments.length-1]);
+	return _logger(colors.Cyan, "i", arguments);
 }
 
 function log() {
-	var msg = "";
-	for (var i = 0; i < arguments.length-1; i++)
-		msg = msg + arguments[i] + " ";
-
-	_log(colors.White, "l", msg, arguments[arguments.length-1]);
+	return _logger(colors.White, "l", arguments);
 }
 
 function error() {
-	var msg = "";
-	for (var i = 0; i < arguments.length; i++)
-		msg = msg + arguments[i] + " ";
-
-	_log(colors.Red, "e", msg, arguments[arguments.length-1]);
+	return _logger(colors.Red, "e", arguments);
 }
 
 module.exports = {
