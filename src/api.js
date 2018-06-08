@@ -8,7 +8,7 @@ app.use(function(req, res, next) {
 	if (typeof app_cache[accept] !== "undefined")
 		res.setHeader("Cache-Control", "public, max-age=" + app_cache[accept]);
 	else
-		res.setHeader("Cache-Control", "public, max-age=" + app_cache.defualt);
+		res.setHeader("Cache-Control", "public, max-age=" + app_cache.default);
 
 	next();
 });
@@ -28,9 +28,12 @@ app.get("/game.js", function(req, res) {
 
 	var response 	= app_scripts;
 
-	if (!debug)
+	if (!debug) {
+		//response 	= app_minify_js(response);
+
 		// Add function envelope
-		response 	= "(function(){" + app_minify_js(response) + "})();";
+		response 	= "(function(){" + response + "})();";
+	}
 
 	// Send response
 	res.end(response);

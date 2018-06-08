@@ -12,7 +12,7 @@ app_minify      = function(s) {
 app_minify_js   = function(s) {
 	s               = s.trim();
 
-	/*const replaces  = [
+	const replaces  = [
         /\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm,           // Comments
         /[\t\n\r]/g,                                    // Characters
         /^\s+|\s+$|\s+(?=\s)/g                          // Whitespace
@@ -39,7 +39,7 @@ app_minify_js   = function(s) {
     	s   = s.replace(replaces[r], "");
 
     for(var r in oReplaces)
-    	s   = s.replaceAll(r, oReplaces[r]);*/
+    	s   = s.replaceAll(r, oReplaces[r]);
 
     return s;
 };

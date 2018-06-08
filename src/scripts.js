@@ -21,9 +21,10 @@ app_get_scripts = function() {
 			if (debug) {
 				app_scripts 	+= "/* --------- app script " + (file.replace("www/js/modules/", "")) + " --------- */\n";
 				app_scripts 	+= js;
-				app_scripts 	+= "\n";
 			} else
 				app_scripts 	+= js;
+
+			app_scripts 		+= "\r\n";
 		}
 
 		for(var config in packageFile)
