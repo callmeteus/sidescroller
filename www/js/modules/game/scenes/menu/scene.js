@@ -11,17 +11,10 @@ Sidescroller.Scenes.menu 		= function(callback) {
 			else
 				$container.find("#game-menu").modal("show");
 
-			// Check if game is loaded
-			if (typeof Sidescroller.Game.layers !== "undefined")
-				return;
-
 			// Hide game
 			game_fadeOut(function() {
 				// Reset game stage
 				Sidescroller.Stages.reset();
-
-				// Recreate the game
-				Sidescroller.Scenes.create();
 			});
 		});
 	});
