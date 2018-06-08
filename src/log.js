@@ -24,7 +24,7 @@ var logType = {
 	http: 	"[" + colors.Blue + "http" + colors.Reset + "]"
 }
 
-var logDir  = "../logs/";
+var logDir  = path.join(__dirname, "../logs/");
 
 !fs.existsSync(logDir) && fs.mkdirSync(logDir);
 
