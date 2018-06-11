@@ -3,18 +3,24 @@ function app_mysql_customQuery(connection) {
 
 	connection.query 	= function() {
 		var query 		= arguments[0];
-		query 			= query.replace(new RegExp("\n", "g"), " ");
-		query 			= query.replace(new RegExp("\t", "g"), "");
-		query 			= query.trim();
-
 		var obj 		= arguments[1];
 
-		if (typeof obj === "object")
+		// Remove new lines
+		query 			= query.replace(new RegExp("\n", "g"), " ");
+
+		// Remove tabs
+		query 			= query.replace(new RegExp("\t", "g"), "");
+
+		// Trim
+		query 			= query.trim();
+
+		if (typeof obj === "object") {
 			for(var index in obj)
 				if (obj[index].hasOwnProperty())
 					continue;
 				else
 					query 	= query.replace(new RegExp(":" + index, "g"), this.escape(obj[index]));
+		}
 
 		arguments[0] 	= query;
 
@@ -31,8 +37,6 @@ function app_mysql(callback) {
 	global.pool  		= mysql.createPool(process.env.JAWSDB_MARIA_URL);
 
 	/* ------------------------------------------------------------------------------- */
-
-	var q 				= pool.query;
 
 	// Custom query function
 	app_mysql_customQuery(pool);

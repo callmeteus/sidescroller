@@ -41,6 +41,15 @@ var app_user_login 		= function(email, password, done) {
 	});
 };
 
+app_email_exists 		= function(email, callback) {
+	pool.query("SELECT useremail FROM app_user WHERE useremail = ?", data["user-email"], function(err, dbData) {
+		if (err)
+			return log.error(err, log.type.server);
+
+		return callback(dbData.length);
+	});
+}
+
 var app_user_register 	= function(req, res) {
 	// Check if data have all the fields
 	if (app_object_hasNullValues.call(data) || !app_object_hasKeys.call(data, ["user-name", "user-email", "user-password"]))
@@ -50,11 +59,8 @@ var app_user_register 	= function(req, res) {
 	for(var prop in data)
 		data[prop] 	= data[prop].htmlEntities();
 
-	pool.query("SELECT useremail FROM app_user WHERE useremail = ?", data["user-email"], function(err, dbData) {
-		if (err)
-			return log.error(err, log.type.server);
-
-		if (dbData.length)
+	app_email_exists(data["user-email"], function(exists) {
+		if (exists)
 			return res.sendData(app_http_response_error("EMAIL_IN_USE"));
 
 		var iData 	= {
