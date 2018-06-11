@@ -76,14 +76,7 @@ var app_user_register 	= function(req, res) {
 				if (err)
 					return log.error(err, log.type.server);
 
-				var userid 	= result.insertId;
-
-				pool.query("INSERT INTO app_user_data SET userid = ?", userid, function(err, result) {
-					if (err)
-						throw err;
-
-					res.sendData(app_http_response(true, { id: userid }));
-				});
+				res.sendData(app_http_response(true, { id: result.insertId }));
 			});
 		});
 	});

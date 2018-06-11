@@ -5,22 +5,12 @@ function app_mysql_customQuery(connection) {
 		var query 		= arguments[0];
 		var obj 		= arguments[1];
 
-		// Remove new lines
-		query 			= query.replace(new RegExp("\n", "g"), " ");
+		// Remove new lines, tabs and trim the query
+		query 			= query.replaceAll("\n", " ").replaceAll("\t", "").trim();
 
-		// Remove tabs
-		query 			= query.replace(new RegExp("\t", "g"), "");
-
-		// Trim
-		query 			= query.trim();
-
-		if (typeof obj === "object") {
+		if (typeof obj === "object")
 			for(var index in obj)
-				if (obj[index].hasOwnProperty())
-					continue;
-				else
-					query 	= query.replace(new RegExp(":" + index, "g"), this.escape(obj[index]));
-		}
+				(!obj[index].hasOwnProperty()) && (query = query.replaceAll(":" + index, this.escape(obj[index])));
 
 		arguments[0] 	= query;
 

@@ -1,5 +1,9 @@
+String.prototype.replaceAll = String.prototype.replaceAll || function(needle, replacement) {
+	return this.split(needle).join(replacement);
+};
+
 // Remove HTML
-String.prototype.htmlEntities   = function () {
+String.prototype.htmlEntities   = function() {
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 };
 

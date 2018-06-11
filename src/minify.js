@@ -1,7 +1,3 @@
-String.prototype.replaceAll = String.prototype.replaceAll || function(needle, replacement) {
-	return this.split(needle).join(replacement);
-};
-
 // Minify string
 app_minify      = function(s) {
 	return s.replace(new RegExp("\n", "g"), "");
