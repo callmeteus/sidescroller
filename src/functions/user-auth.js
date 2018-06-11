@@ -46,26 +46,16 @@ var app_user_register 	= function(req, res) {
 	if (app_object_hasNullValues.call(data) || !app_object_hasKeys.call(data, ["user-name", "user-email", "user-password"]))
 		return res.sendData(app_http_response_error("BLANK_FIELDS"));
 
-	// Check if it is a valid email
-	if (!data["user-email"].isValidEmail())
-		return res.sendData(app_http_response_error("INVALID_EMAIL"));
-
 	// Sanitize string
 	for(var prop in data)
 		data[prop] 	= data[prop].htmlEntities();
 
-	// Remove whitespaces from username
-	data["user-name"] 	= data["user-name"].removeWhitespaces();
-
-	pool.query("SELECT username, useremail FROM app_user WHERE useremail = ? OR username = ?", [data["user-email"], data["user-name"]], function(err, dbData) {
+	pool.query("SELECT useremail FROM app_user WHERE useremail = ?", data["user-email"], function(err, dbData) {
 		if (err)
 			return log.error(err, log.type.server);
 
 		if (dbData.length)
-			if (dbData[0].username == data["user-name"])
-				return res.sendData(app_http_response_error("NAME_INUSE"));
-			else
-				return res.sendData(app_http_response_error("EMAIL_INUSE"));
+			return res.sendData(app_http_response_error("EMAIL_IN_USE"));
 
 		var iData 	= {
 			username: 		data["user-name"],

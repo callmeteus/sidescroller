@@ -30,6 +30,7 @@ function app_http(callback) {
 	// Serve static files
 	app.use(express.static(app_dir, { maxAge: (debug) ? 0 : app_cache.default }));
 
+	// Session
 	app.use(session({ secret: app_cookie_secret, resave: true, saveUninitialized: false }));
 
 	// Passport.js

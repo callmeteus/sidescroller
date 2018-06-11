@@ -1,3 +1,27 @@
+function app_mysql_customQuery(connection) {
+	var q 				= connection.query;
+
+	connection.query 	= function() {
+		var query 		= arguments[0];
+		query 			= query.replace(new RegExp("\n", "g"), " ");
+		query 			= query.replace(new RegExp("\t", "g"), "");
+		query 			= query.trim();
+
+		var obj 		= arguments[1];
+
+		if (typeof obj === "object")
+			for(var index in obj)
+				if (obj[index].hasOwnProperty())
+					continue;
+				else
+					query 	= query.replace(new RegExp(":" + index, "g"), this.escape(obj[index]));
+
+		arguments[0] 	= query;
+
+		q.apply(this, arguments);
+	}
+};
+
 function app_mysql(callback) {
 	if (process.env.ISTRAVIS)
 		return callback();
@@ -11,27 +35,11 @@ function app_mysql(callback) {
 	var q 				= pool.query;
 
 	// Custom query function
-	pool.query 			= function() {
-		var query 		= arguments[0];
-		query 			= query.replace(new RegExp("\n", "g"), " ");
-		query 			= query.replace(new RegExp("\t", "g"), "");
-		query 			= query.trim();
-
-		if (typeof arguments[1] === "object")
-			for(var index in arguments[1])
-				if (arguments[1][index].hasOwnProperty())
-					continue;
-				else
-					query 	= query.replace(new RegExp(":" + index, "g"), this.escape(arguments[1][index]));
-
-		arguments[0] 	= query;
-
-		q.apply(this, arguments);
-	};
-
-	// Test connection
+	app_mysql_customQuery(pool);
+	
 	log.info("Testing MySQL connection...", log.type.server);
 
+	// Test connection
 	pool.getConnection(function(err, conn) {
 		if (err)
 			throw new Error("Failed to connect to MySQL server:" + err);
