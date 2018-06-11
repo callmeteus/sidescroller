@@ -12,19 +12,23 @@ User.findById 		= function(id, callback) {
 };
 
 User.getStages 		= function(id, callback) {
+	// TODO: improve this query
 	pool.query(`
 		SELECT 
 			su.stagewin, 
-			su.stagetime, 
+			su.stagetime,
+			s.stageid,
 			s.stagename, 
-			s.stageid, 
-			s.stageimage 
+			s.stageimage
 		FROM app_stages s 
-		LEFT JOIN app_user_stages su 
-		ON s.stageid = su.stageid 
-		WHERE su.stageuser = ? 
-		OR s.stageid = 1
-	`, id, function(err, data) {
+		LEFT JOIN
+			app_user_stages su 
+		ON
+			s.stageid = su.stageid AND
+			su.stageuser = :user
+		HAVING
+			s.stageid <= (SELECT MAX(stageid) + 1 FROM app_user_stages WHERE stageuser = :user)
+	`, { user: id }, function(err, data) {
 		if (err)
 			return callback(err);
 
@@ -41,9 +45,12 @@ User.getStage 		= function(id, user, callback) {
 			s.stageid,
 			su.stageuid
 		FROM app_stages s 
-		LEFT JOIN app_user_stages su 
-		ON s.stageid = su.stageid
-		WHERE IF(ISNULL(su.stageid), 1, (su.stageid = ? AND su.stageuser = ?))
+		LEFT JOIN
+			app_user_stages su 
+		ON
+			s.stageid = su.stageid
+		WHERE
+			IF(ISNULL(su.stageid), 1, (su.stageid = ? AND su.stageuser = ?))
 		LIMIT 1
 	`, [id, user], function(err, data) {
 		if (err)
@@ -76,7 +83,7 @@ User.updateStage 	= function(uid,  user, data, callback) {
 
 		if (data.stagewin)
 			pool.query("SELECT stageid AS next FROM app_stages WHERE stageid = ? LIMIT 1", data.stagenext, function(err, currentData) {
-				if (typeof currentData === "undefined")
+				if (!currentData.length)
 					return callback(null, { next: false });
 				
 				currentData 	= currentData[0];
