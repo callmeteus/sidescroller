@@ -25,8 +25,8 @@ Sidescroller.Scenes.create 	= function() {
 	Sidescroller.Game.plugins.add(Phaser.Plugin.TilemapPlus);
 
 	// Register events
-	Sidescroller.Game.input.addMoveCallback(Sidescroller.Events.POINTER_MOVE, game);		// Pointer move
-	Sidescroller.Game.input.onDown.add(Sidescroller.Events.POINTER_DOWN, game); 			// Pointer down
+	Sidescroller.Game.input.addMoveCallback(Sidescroller.Events.POINTER_MOVE, this);		// Pointer move
+	Sidescroller.Game.input.onDown.add(Sidescroller.Events.POINTER_DOWN, this); 			// Pointer down
 
 	// Load menu
 	Sidescroller.Scenes.menu();

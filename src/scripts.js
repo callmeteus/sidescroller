@@ -1,5 +1,3 @@
-var fs 			= require("fs");
-var glob 		= require("glob");
 var minify 		= require("./minify");
 
 app_scripts 	= "";

@@ -4,7 +4,7 @@
  */
 Sidescroller.Scenes.end 		= function(isWinner) {
 	// Unload game
-	Sidescroller.Game.isLoaded 						= false;
+	Sidescroller.Game.isLoaded 							= false;
 
 	// Stop game timer
 	Sidescroller.Timer.stop();
@@ -15,7 +15,7 @@ Sidescroller.Scenes.end 		= function(isWinner) {
 	// Reset player acceleration if he wins the game
 	if (isWinner) {
 		Sidescroller.Game.player.body.reset(0, 0);
-		Sidescroller.Game.player.body.allowGravity 	= false;
+		Sidescroller.Game.player.body.allowGravity 		= false;
 	}
 
 	// Reset camera target
@@ -27,14 +27,7 @@ Sidescroller.Scenes.end 		= function(isWinner) {
 		win: 			(isWinner) ? true : false,
 		time: 			Sidescroller.Game.player.timer,
 		score: 			Sidescroller.Game.player.points,
-		prevWin: 		false
 	};
-
-	var currentData 	= Sidescroller.Player.Data.Stages.get(Sidescroller.Stages.current);
-
-	// Check if player already passed this stage
-	if (typeof currentData !== "undefined" && currentData.done)
-		data.prevWin 	= true;
 
 	// Do stage check
 	return game_scene_end_stageCheck(data);

@@ -1,0 +1,31 @@
+<div class="modal fade" id="game-user-auth" tabindex="-1" data-keyboard="false" data-backdrop="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-info text-white">
+				<h3 class="modal-title">{{ game_title }}</h3>
+			</div>
+
+			<form class="mb-0" method="post" action="#">
+				<div class="modal-body text-center">
+					<div class="form-group">
+						<input required class="form-control" type="email" placeholder="Email address" name="user-email" />
+					</div>
+
+					<div class="form-group mb-0">
+						<input required class="form-control" type="password" placeholder="Password" name="user-password" />
+					</div>
+				</div>
+
+				<div class="modal-footer btn-group">
+					<button class="btn btn-secondary btn-lg col-4" id="game-button-register">
+						<i class="fa fa-fw fa-user-plus mr-1"></i>Register
+					</button>
+
+					<button type="submit" class="btn btn-primary btn-lg col-8" id="game-button-login">
+						<i class="fa fa-fw fa-sign-in-alt mr-1"></i>Login
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

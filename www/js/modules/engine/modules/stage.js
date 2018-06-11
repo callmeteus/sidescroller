@@ -5,7 +5,7 @@ Sidescroller.Stages.load 	= function(mapName, callback) {
 	Sidescroller.Game.mapItems 				= Sidescroller.Game.add.spriteBatch();
 	Sidescroller.Game.layers 				= {};
 
-	Sidescroller.Game.load.tilemap(tilemap, "api/stage/" + mapName, null, Phaser.Tilemap.TILED_JSON);
+	Sidescroller.Game.load.tilemap(tilemap, "api/user/stage/" + mapName, null, Phaser.Tilemap.TILED_JSON);
 	Sidescroller.Game.load.image(tileset, "img/tilemap.png");
 
 	Sidescroller.Game.load.onLoadComplete.addOnce(function() {
@@ -144,7 +144,7 @@ Sidescroller.Stages.reset 	= function() {
  * @param  {function} callback Callback function
  */
 Sidescroller.Stages.get 			= function(callback) {
-	$.get("/api/stages", function(stages) {
+	$.get("/api/user/stages", function(stages) {
 		Sidescroller.Stages.list 	= stages;
 
 		if (typeof callback === "function")
@@ -152,18 +152,6 @@ Sidescroller.Stages.get 			= function(callback) {
 	});
 }
 
-Sidescroller.Player.Data.Stages 	= {};
-Sidescroller.Player.Data.Stages.get = function(stageId) {
-	if (typeof Sidescroller.Player.Data.get("stages." + stageId) === "undefined")
-		Sidescroller.Player.Data.set("stages." + stageId, {
-			win: 	false,
-			score: 	0,
-			time: 	0
-		}, true);
-
-	return Sidescroller.Player.Data.get("stages." + stageId);
-}
-
-Sidescroller.Player.Data.Stages.set = function(stageId, data) {
-	return Sidescroller.Player.Data.set("stages." + stageId, data, true);
+Sidescroller.Stages.set 	= function(stageId, data, callback) {
+	$.post("/api/user/stage/" + stageId, data, callback);
 }

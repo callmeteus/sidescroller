@@ -41,7 +41,7 @@ function app_loader_progress(perc, isSecondary) {
 			type: 	"application/javascript",
 			tag: 	"script",
 			items:	
-			["js/lib/jquery.js", "js/lib/cookie.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
+			["js/lib/jquery.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
 		}
 	];
 

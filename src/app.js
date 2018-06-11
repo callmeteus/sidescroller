@@ -7,91 +7,44 @@ global.debug        = process.env.NODE_ENV !== "production";
 
 global.fs           = require("fs");
 global.path         = require("path");
-
-// Configuration file
-require("./config");
+global.glob         = require("glob");
 
 // Package file
-global.packageFile  = require("../package");
+global.packageFile  = Object.assign({}, require("../package"), {
+    userCookie:     "sidescroller_data",
+    userKeyCookie:  "_suid"
+});
 
-packageFile.userCookie  = "_gd";
-
-var express         = require("express"),
-    cookieParser    = require("cookie-parser"),
-    compression     = require("compression"),
-    minify          = require("express-minify");
+var async           = require("async");
 
 
 /* --------------------------------------------------------------------- */
 
 global.log          = require("./log");
 
-// Setup express
-global.app          = express();
-var server          = require("http").Server(app);
-
 /* --------------------------------------------------------------------- */
 
+// Clear console if available
 if (typeof process.stdout.getWindowSize === "function")
     for(var i = 0; i < process.stdout.getWindowSize()[1]; i++)
         console.log("\r\n");
 
 /* --------------------------------------------------------------------- */
 
-// Remove HTML
-String.prototype.htmlEntities   = function () {
-    return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-};
-
-// Base 64 decode
-global.atob = function(str) {
-    return new Buffer(str, "base64").toString("utf8");
-};
-
-// Base 64 encode
-global.btoa = function(str) {
-    return new Buffer(str).toString("base64");
-};
+require("./config");
+require("./utils");
 
 /* --------------------------------------------------------------------- */
 
-// XSS Protection
-app.use(function(req, res, next){
-    res.header("X-XSS-Protection" , 0);
-    res.header("Access-Control-Allow-Origin", "http://" + process.env.NODE_IP || app_host + ":" + process.env.PORT || app_port);
+log.info("Is debug?", debug, log.type.server);
 
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "POST GET");
-    res.header("Access-Control-Allow-Credentials", "true");
+async.series([
+    require("./modules/db").start,
+    require("./modules/express").start,
+    require("./modules/passport").start,
+    require("./modules/routes").start,
+    require("./modules/http").start,
+]);
 
-    return next();
-});
-
-// Start Express
-log.info("Starting app express...", log.server);
-
-// Cookie parser middleware
-app.use(cookieParser());
-
-if (!debug) {
-    // Compression middleware
-    app.use(compression());
-
-    // Minification middleware
-    app.use(minify());
-}
-
-// Serve static files
-app.use(express.static(app_dir, { maxAge: (debug) ? 0 : app_cache.default }));
-
-// Require API file handler
-require("./stages");
-require("./api");
-
-if (!process.env.ISTRAVIS) {
-    // Start express
-    server.listen(process.env.PORT || app_port, process.env.NODE_IP);
-
-    log.info("-> Listening on port " + app_port, log.server);
-} else 
-    log.info("-> Build success", log.server);
+if (debug)
+    require("./debug");

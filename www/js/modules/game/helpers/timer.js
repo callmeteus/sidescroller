@@ -8,9 +8,6 @@ Sidescroller.Timer.start 	= function(restart) {
 
 		// Update screen timer
 		$(".game-timer").text(Sidescroller.Game.player.timer.fancyTimeFormat());
-
-		// Increase game played time
-		Sidescroller.Player.Data.increase("playedTime", true);
 	}
 
 	Sidescroller.Timer.id 	= setTimeout(Sidescroller.Timer.start, (Sidescroller.Game.paused) ? 10 : 1000);
