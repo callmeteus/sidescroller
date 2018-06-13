@@ -29,7 +29,7 @@ User.getStages 		= function(id, callback) {
 			s.stageid = su.stageid AND
 			su.stageuser = :user
 		HAVING
-			s.stageid <= (SELECT MAX(stageid) + 1 FROM app_user_stages WHERE stageuser = :user)
+			s.stageid <= (COALESCE((SELECT MAX(stageid) + 1 FROM app_user_stages WHERE stageuser = :user), 1))
 	`, { user: id }, function(err, data) {
 		if (err)
 			return callback(err);
