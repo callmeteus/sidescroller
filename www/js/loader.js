@@ -48,6 +48,8 @@ function app_loader_progress(perc, isSecondary) {
 	function _loader(src, type, tag, callback) {
 		var req 			= new XMLHttpRequest();
 
+		src 				+= ((src.indexOf("?") > -1) ? "&" : "?") + "v=" + app_config.game_version;
+
 		req.addEventListener("progress", (e) => (e.lengthComputable) ? app_loader_progress((e.loaded / e.total) / 100, true) : "");
 
 		req.addEventListener("load", function(e) {

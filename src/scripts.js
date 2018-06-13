@@ -49,7 +49,7 @@ app_get_styles 	= function() {
 				app_styles 	+= css;
 				app_styles 	+= "\n";
 			} else
-				app_styles 	+= app_minify(css);
+				app_styles 	+= app_minify_css(css);
 		}
 	});
 };

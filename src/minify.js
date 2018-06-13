@@ -39,3 +39,20 @@ app_minify_js   = function(s) {
 
     return s;
 };
+
+app_minify_css = function(s) {
+    return String(s)
+        .replace(/\/\*[\s\S]*?\*\//g, ' ') // Comments
+        .replace(/\s+/g, ' ') // Extra spaces
+        .replace(/([\(\)\{\}\:\;\,]) /g, '$1') // Extra spaces
+        .replace(/ \{/g, '{') // Extra spaces
+        .replace(/\;\}/g, '}') // Last semicolon
+        .replace(/ ([+~>]) /g, '$1') // Extra spaces
+        .replace(/([^{][,: \(\)]0)(%|px|pt|pc|rem|em|ex|cm|mm|in)([, };\(\)])/g, '$1$3') // Units for zero values
+        .replace(/([: ,=\-\(])0\.(\d)/g, '$1.$2') // Lead zero for float values
+        .replace(/([^\}]*\{\s*?\})/g, '') // Empty rules
+        .replace(/([,: \(])#([0-9a-f]{6})/gi, function(m, pfx, clr) { // HEX code reducing
+            if (clr[0] == clr[1] && clr[2] == clr[3] && clr[4] == clr[5]) return pfx + '#' + clr[0] + clr[2] + clr[4];
+            return pfx + '#' + clr;
+        });
+}
