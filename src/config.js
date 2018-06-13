@@ -15,6 +15,6 @@ app_cache 			= {
 
 app_salt_rounds 	= 5;
 
-app_cookie_secret 	= process.env.HEROKU_DYNO_ID;
+app_cookie_secret 	= process.env.DYNO;
 
 app_dir 			= path.join(__dirname, "../www/");
