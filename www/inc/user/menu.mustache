@@ -1,7 +1,11 @@
 <div id="game-menu" class="card card-modal align-absolute-center">
 	<div class="card-header bg-info wow fadeInDown">
-		<h3 class="card-title mb-0 text-white">{{ game_title }}</h3>
-		<span class="text-light">Welcome back, {{ Player.name }}!</span>
+		<div class="float-left">
+			<h3 class="card-title mb-0 text-white">{{ game_title }}</h3>
+			<span class="text-light">Welcome back, {{ Player.name }}!</span>
+		</div>
+
+		<a class="btn btn-danger float-right text-white game-button" id="game-button-logout" title="Logout"><i class="fa fa-fw fa-times fa-2x"></i></a>
 	</div>
 
 	<div class="card-body row wow bounceIn">

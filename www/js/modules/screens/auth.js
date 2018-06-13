@@ -15,8 +15,6 @@ $(function() {
 $(document).on("submit", "#game-user-auth form", function(e) {
 	e.preventDefault();
 
-	console.log("sim");
-
 	var $form 		= $(this);
 
 	var data 		= {

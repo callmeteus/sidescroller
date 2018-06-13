@@ -20,5 +20,13 @@ $(document).on("vclick", ".game-button", function(e) {
 			// Hide all open modals and go to menu scene
 			game_modal_hideAll(() => Sidescroller.Scenes.menu());
 		break;
+
+		// Logout
+		case "logout":
+			$(".btn").addClass("disabled");
+			$(":input").prop("disabled", true);
+
+			$.post("/api/user/logout", () => location.reload());
+		break;
 	}
 });
