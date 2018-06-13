@@ -48,7 +48,7 @@ function app_loader_progress(perc, isSecondary) {
 	function _loader(src, type, tag, callback) {
 		var req 			= new XMLHttpRequest();
 
-		req.addEventListener("progress", (e) => (e.lengthComputable) ? app_loader_progress((e.loaded / e.total) * 100, true) : "");
+		req.addEventListener("progress", (e) => (e.lengthComputable) ? app_loader_progress((e.loaded / e.total) / 100, true) : "");
 
 		req.addEventListener("load", function(e) {
 			var s 			= document.createElement(tag);

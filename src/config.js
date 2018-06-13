@@ -2,6 +2,7 @@
 	Server Configuration
 */
 
+app_domain 			= "kemononaru-sidescroller.herokuapp.com";
 app_host       		= "192.168.15.2";
 app_port       		= 3000;
 
@@ -10,8 +11,7 @@ app_cache 			= {
 	css: 				31536000,
 	js: 				31536000,
 	jpg: 				86400,
-	png: 				86400,
-	json: 				15
+	png: 				86400
 };
 
 app_salt_rounds 	= 5;
