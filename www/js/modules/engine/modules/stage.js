@@ -1,11 +1,16 @@
-Sidescroller.Stages.load 	= function(mapName, callback) {
-	var tileset 				= "tileset_" + mapName;
-	var tilemap 				= "tilemap_" + mapName;
+/**
+ * Load stage
+ * @param  {[type]}   stage  	Stage ID
+ * @param  {Function} callback 	Callback function
+ */
+Sidescroller.Stages.load 	= function(stage, callback) {
+	var tileset 						= "tileset_" + stage;
+	var tilemap 						= "tilemap_" + stage;
 
 	Sidescroller.Game.mapItems 				= Sidescroller.Game.add.spriteBatch();
 	Sidescroller.Game.layers 				= {};
 
-	Sidescroller.Game.load.tilemap(tilemap, "api/user/stage/" + mapName, null, Phaser.Tilemap.TILED_JSON);
+	Sidescroller.Game.load.tilemap(tilemap, "api/user/stage/" + stage, null, Phaser.Tilemap.TILED_JSON);
 	Sidescroller.Game.load.image(tileset, "img/tilemap.png");
 
 	Sidescroller.Game.load.onLoadComplete.addOnce(function() {
@@ -42,16 +47,27 @@ Sidescroller.Stages.load 	= function(mapName, callback) {
  * @return {[type]}       Return "false" if it's not a ground tile
  */
 Sidescroller.Stages.spawn 	= function(item, x, y) {
+	var item 							= Sidescroller.Items.get(item);
 	var tile 							= Sidescroller.Game.tilemap.getTileWorldXY(x, y, Sidescroller.Game.tilemap.tileWidth, Sidescroller.Game.tilemap.tileHeight, Sidescroller.Game.layers.ground);
 
 	if (tile !== null && tile.layer.name === "ground")
 		return false;
 
-	var sprite 							= Sidescroller.Game.add.sprite(x, y + 1.5, item);
+	var sprite 							= Sidescroller.Game.add.sprite(x, y + 1.5, item.key);
+
+	// Enable physics
 	Sidescroller.Game.physics.enable(sprite);
 
 	sprite.body.immovable 				= true;
 	sprite.body.collideWorldBounds 		= true;
+
+	// Generate sprite unique id
+	sprite.uid 							= +new Date();
+
+	sprite.item							= item.id;
+	sprite.collision 					= {
+		first: 	true
+	};
 
 	Sidescroller.Game.mapItems.add(sprite);
 }
@@ -59,58 +75,23 @@ Sidescroller.Stages.spawn 	= function(item, x, y) {
 /**
  * Function to create the cursor marker
  */
-Sidescroller.Stages.createMarker 	= function() {
+Sidescroller.Stages.createMarker 		= function() {
 	if (Sidescroller.Game.cursorMarker)
 		return;
 
-	Sidescroller.Game.cursorMarker 					= Sidescroller.Game.add.graphics();
-    Sidescroller.Game.cursorMarker.lineStyle(2, 0xffffff, 1);
-    Sidescroller.Game.cursorMarker.drawRect(0, 0, Sidescroller.Game.tilemap.tileWidth, Sidescroller.Game.tilemap.tileHeight);
+	Sidescroller.Game.cursorMarker 		= new SidescrollerMarker();
 }
 
 /**
  * Function to create the player
  */
-Sidescroller.Stages.createPlayer 	= function() {
-	/*
-		TODO
-		Default camera lerp is 0.020
-		Removed because camera was not following player in high velocities
-	*/
-	this.lerpAmount 					= 0.8;
-
-	if (Sidescroller.Game.player) {
-		Sidescroller.Game.player.kill();
-		delete(Sidescroller.Game.player);
+Sidescroller.Stages.createPlayer 		= function() {
+	if (Sidescroller.Player.sprite) {
+		Sidescroller.Player.sprite.kill();
+		delete(Sidescroller.Player.sprite);
 	}
 
-	Sidescroller.Game.player 					= Sidescroller.Game.add.sprite(0, 0, "player");
-
-	Sidescroller.Game.player.collideWorldBounds = true;
-	Sidescroller.Game.physics.arcade.enable(Sidescroller.Game.player);
-
-	Sidescroller.Game.player.body.allowGravity 	= true;
-	Sidescroller.Game.player.body.bounce.set(0.8);
-	Sidescroller.Game.player.body.gravity.set(0, 1000);
-
-	// Set camera follow event
-	Sidescroller.Game.camera.follow(Sidescroller.Game.player, Phaser.Camera.FOLLOW_LOCKON, this.lerpAmount, this.lerpAmount);
-
-	// Set region enter event
-	Sidescroller.Game.tilemap.plus.events.regions.onEnterAdd(Sidescroller.Game.player, Sidescroller.Events.MAP_REGION_ENTER);
-
-	/* ---------------------------------------------------------------------- */
-
-	Sidescroller.Game.player.points 			= 0;
-	Sidescroller.Game.player.timer 				= 0;
-	Sidescroller.Game.player.x 					= Sidescroller.Game.tilemap.helpers.start.x + (Sidescroller.Game.player.width);
-	Sidescroller.Game.player.y 					= Sidescroller.Game.tilemap.helpers.start.y + Sidescroller.Game.tilemap.tileHeight;
-
-	/* ---------------------------------------------------------------------- */	
-
-	// Just for debug
-	Sidescroller.Game.player.currentItem 		= Sidescroller.Items.get(0);
-	Sidescroller.Game.player.acceleration 		= 50;
+	Sidescroller.Player.sprite 			= new SidescrollerPlayer();
 }
 
 /**

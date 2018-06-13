@@ -5,14 +5,12 @@ Sidescroller.Scenes.menu 		= function(callback) {
 	// Load all unlocked stages
 	Sidescroller.Stages.get(function() {
 		// Load menu
-		app_mustache_load("menu", $container, null, false, function() {
+		app_mustache_load("user/menu", $container, null, false, function() {
 			if (typeof callback === "function")
 				callback();
-			else
-				$container.find("#game-menu").modal("show");
 
 			// Hide game
-			game_fadeOut(function() {
+			Sidescroller.Game.fadeOut(function() {
 				// Reset game stage
 				Sidescroller.Stages.reset();
 			});

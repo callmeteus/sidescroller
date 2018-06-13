@@ -1,28 +1,39 @@
 (function() {
-	/**
-	 * Load player data
-	 * @return {object} Player data
-	 */
-	Sidescroller.Player.Data.load 	= function() {
-		var data 	= {
-			level: 		1,
-			playedTime: 0,
-			stages: 	{}
-		};
+	Sidescroller.Player.isLoggedIn 		= {{game_player_loggedIn}};
+	Sidescroller.Player.sprite 			= null;
+	Sidescroller.Player.items 			= {
+		Q: null,
+		E: null,
+		W: null,
+		R: null
+	};
 
-		if (localStorage.getItem(game_player_data_key) !== null)
-			try {
-				var ud  = JSON.parse(
-					atob(
-						localStorage.getItem(game_player_data_localKey)
-					)
-				);
+	Sidescroller.Player.currentItem 	= null;
 
-				data 	= Object.assign(data, ud);
-			} catch(e) {
-				throw new Error("Invalid player saved data, may be corrupted.");
-			}
+	Sidescroller.Player.getData 		= function(callback) {
+		$.get("/api/user/data", function(data) {
+			Sidescroller.Player.setData(data);
 
-		return data;
+			if (typeof callback !== "undefined")
+				callback(data);
+		});
+	};
+
+	Sidescroller.Player.setData 		= function(data) {
+		for(var index in data)
+			this[index] 	= data[index];
+	};
+
+	Sidescroller.Player.setCurrentItem 	= function(itemId) {
+		if (itemId === "-1")
+			return;
+
+		this.currentItem 				= parseInt(itemId);
+
+		var x 							= Sidescroller.Game.cursorMarker.x;
+		var y 							= Sidescroller.Game.cursorMarker.y;
+
+		Sidescroller.Game.cursorMarker.kill();
+		Sidescroller.Game.cursorMarker 	= new SidescrollerMarker(Sidescroller.Items.get(itemId).key, x, y);
 	};
 })();

@@ -9,3 +9,7 @@ app.all("/api/user/logout", function(req, res) {
 	req.logout();
 	res.end();
 });
+
+app.get("/api/user/data", app_route_loggedIn, function(req, res) {
+	res.json(req.user).end();
+});

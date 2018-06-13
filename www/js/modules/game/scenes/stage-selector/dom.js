@@ -1,5 +1,5 @@
 // Game Stage Selector button click
-$(document).on("click touchstart", "#game-menu #game-button-stage-selector", function(e) {
+$(document).on("vclick", "#game-menu #game-button-stage-selector", function(e) {
 	e.preventDefault();
 
 	// Hide all modals and then show stage selector modal
@@ -7,7 +7,7 @@ $(document).on("click touchstart", "#game-menu #game-button-stage-selector", fun
 });
 
 // On stage select
-$(document).on("click touchstart", "#game-stage-selector .game-stage", function() {
+$(document).on("vclick", "#game-stage-selector .game-stage", function() {
 	$(".game-stage.active").removeClass("active");
 	$(this).addClass("active");
 

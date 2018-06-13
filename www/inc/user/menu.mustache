@@ -1,0 +1,78 @@
+<div id="game-menu" class="card card-modal align-absolute-center">
+	<div class="card-header bg-info wow fadeInDown">
+		<h3 class="card-title mb-0 text-white">{{ game_title }}</h3>
+		<span class="text-light">Welcome back, {{ Player.name }}!</span>
+	</div>
+
+	<div class="card-body row wow bounceIn">
+		<div class="col-8">
+			<h4>Select your items</h4>
+
+			<div id="game-items-active">
+				<div class="game-item img-thumbnail" data-key="Q"></div>
+				<div class="game-item img-thumbnail" data-key="W"></div>
+				<div class="game-item img-thumbnail" data-key="E"></div>
+				<div class="game-item img-thumbnail" data-key="R"></div>
+			</div>
+
+			<hr/>
+
+			<div id="game-items">
+			{{#Items.list}}
+				<div draggable="true" data-id="{{ id }}" class="game-item img-thumbnail wow zoomIn" title="<strong>{{ name }}</strong><br/>{{ description }}">
+					<div class="game-item-image" style="background-image:url('{{ image }}')"></div>
+				</div>
+			{{/Items.list}}
+			</div>
+		</div>
+
+		<div class="col-4 border-left">
+			<button class="btn btn-success btn-lg btn-block game-button" id="game-button-stage-selector">
+				<i class="fa fa-fw fa-chevron-right mr-1"></i>Select Stage
+			</button>
+
+			<button class="btn btn-primary btn-lg btn-block game-button" id="game-button-start">
+				<i class="fa fa-fw fa-question mr-1"></i>How To Play
+			</button>
+		</div>
+	</div>
+
+	<div class="card-footer d-flex wow fadeInUp">
+		<div class="col-4 text-muted text-left">
+			v{{ game_version }}
+		</div>
+
+		<div class="col-8 text-right">
+			Developed by <a href="//kemononaru.studio">Kemononaru Studio</a>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="game-stage-selector" tabindex="-1" data-keyboard="false" data-backdrop="false">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-info text-white">
+				<h3 class="modal-title">Select Stage</h3>
+			</div>
+
+			<div class="modal-body row mx-1 justify-content-around">
+				{{#Stages.list}}
+					<div data-id="{{id}}" class="game-stage col-5 {{#win}}disabled{{/win}}" style="background-image:url({{image}})">
+						<h3 class="game-stage-title">{{name}}</h3>
+					</div>
+				{{/Stages.list}}
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-lg game-button col-4" id="game-button-menu">
+					<i class="fa fa-fw fa-chevron-left mr-1"></i>Back
+				</button>
+
+				<button class="btn btn-success btn-lg game-button col-8" id="game-button-start" disabled>
+					<i class="fa fa-fw fa-check mr-1"></i>Start
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

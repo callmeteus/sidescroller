@@ -45,6 +45,31 @@ var Sidescroller;
 			}, 
 			true
 		);
+
+		this.Game._playing 			= false;
+		this.Game._started 				= false;
+
+		this.InitGame();
+	};
+
+	Engine.prototype.InitGame 			= function() {
+		this.Game.fadeIn 				= function(callback) {
+			$("canvas, #game-inventory, #game-stats").stop().fadeIn(app_config.game_fade_speed, callback);
+		};
+
+		this.Game.fadeOut 				= function(callback) {
+			$("canvas, #game-inventory, #game-stats").stop().fadeOut(app_config.game_fade_speed, callback);
+		}
+
+		this.Game.start 				= function() {
+	    	this._playing 				= true;
+	    	this._started 				= false;
+		};
+
+		this.Game.stop 					= function() {
+			this._playin 				= false;
+			this._started 				= false;
+		}
 	}
 
 	// Create new sidescroller

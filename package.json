@@ -1,6 +1,6 @@
 {
 	"name": "sidescroller",
-	"version": "0.2.7-alpha",
+	"version": "0.2.8-alpha",
 	"description": "Sidescroller Game",
 	"main": "src/app.js",
 	"scripts": {

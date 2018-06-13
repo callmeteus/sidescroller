@@ -34,14 +34,14 @@ function app_loader_progress(perc, isSecondary) {
 			type: 	"text/css",
 			tag: 	"style",
 			items:
-			["css/bootstrap.css", "/game.css"]
+			["css/bootstrap.css", "css/animate.css", "/game.css"]
 		},
 		{
 			str: 	"scripts",
 			type: 	"application/javascript",
 			tag: 	"script",
 			items:	
-			["js/lib/jquery.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
+			["js/lib/jquery.js", "js/lib/wow.js", "js/lib/mustache.js", "js/lib/bootstrap.js", "js/lib/phaser.js", "js/lib/phaser.tilemap.plus.js", "js/lib/fontawesome.js", "game.js"]
 		}
 	];
 

@@ -7,6 +7,8 @@ User.findById 		= function(id, callback) {
 
 		app_object_removePrefix(data[0], "user");
 
+		delete(data[0].password);
+
 		callback(null, data[0]);
 	});
 };
@@ -82,14 +84,30 @@ User.updateStage 	= function(uid,  user, data, callback) {
 			return callback(err);
 
 		if (data.stagewin)
-			pool.query("SELECT stageid AS next FROM app_stages WHERE stageid = ? LIMIT 1", data.stagenext, function(err, currentData) {
+			pool.query(`
+				SELECT 
+					s.stageid AS next,
+					su.stageuid AS done
+				FROM app_stages s
+				LEFT JOIN
+					app_user_stages su 
+				ON
+					s.stageid = su.stageid
+				WHERE
+					s.stageid >= ?
+				LIMIT 1
+				`, data.stagenext, function(err, currentData) {
+				if (err)
+					return callback(err);
+
 				if (!currentData.length)
 					return callback(null, { next: false });
 				
 				currentData 	= currentData[0];
 				callback(err, currentData);
 
-				User.createStage(data.stagenext, user);
+				if (!currentData.done)
+					User.createStage(data.stagenext, user);
 			});
 		else
 			callback(null, { next: false });

@@ -1,5 +1,7 @@
-Sidescroller.Items.add({
-	name: 			"Wood Block",
-	description: 	"A normal wood block.",
-	image: 			"img/items/block.png"
-});
+(function() {
+	var item 				= Sidescroller.Items.add({
+		name: 			"Wood Block",
+		description: 	"A normal wood block.",
+		image: 			"img/items/block.png"
+	});
+})();

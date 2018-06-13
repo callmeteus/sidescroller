@@ -1,10 +1,15 @@
 $(function() {
 	app_loader_set("authentication screen", 98);
-	app_mustache_load("user/auth", $container, null, false, function() {
-		app_loader_hide();
 
-		$container.find("#game-user-auth").modal("show");
-	});
+	// Check if is already logged in
+	if (!Sidescroller.Player.isLoggedIn)
+		app_mustache_load("user/auth", $container, null, false, function() {
+			app_loader_hide();
+
+			$container.find("#game-user-auth").modal("show");
+		});
+	else
+		Sidescroller.Player.getData(() => Sidescroller.Init());
 });
 
 $(document).on("submit", "#game-user-auth form", function(e) {
@@ -18,17 +23,17 @@ $(document).on("submit", "#game-user-auth form", function(e) {
 	};
 
 	$form.find(":input").prop("disabled", true);
+	$form.find(".form-control-plaintext").text("Authenticating...");
 
 	$.ajax({
 		method: 	"POST",
 		url: 		"/api/user/login:local", 
 		data: 		data
 	}).done(function(data, statusText, xhr) {
-		Sidescroller.Player.Data 	= data;
+		Sidescroller.Player.setData(data);
 		Sidescroller.Init();
 	}).fail(function(data) {
-		console.log(data);
-	}).always(function() {
+		$form.find(".form-control-plaintext").text("Authentication failed.");
 		$form.find(":input").prop("disabled", false);
 	});
 });

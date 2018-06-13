@@ -7,5 +7,5 @@ Sidescroller.Scenes.preload 	= function() {
 
 	// Load game items
 	for(var item in Sidescroller.Items.list)
-		Sidescroller.Game.load.image("inventory-" + Sidescroller.Items.list[item].id, Sidescroller.Items.list[item].image);
+		Sidescroller.Game.load.image(Sidescroller.Items.list[item].key, Sidescroller.Items.list[item].image);
 };
