@@ -17,6 +17,15 @@ global.btoa = function(str) {
     return new Buffer(str).toString("base64");
 };
 
+// Check for null values on object
+app_object_hasNullValues 		= function() {
+	for(var prop in this)
+		if (this[prop] == null || !this[prop].length)
+			return true;
+
+	return false;
+};
+
 app_is_object 					= function(obj) {
 	return Object.prototype.toString.call(obj) === "[object Object]"
 }
@@ -30,6 +39,19 @@ app_object_addPrefix			= function(object, prefix) {
 			delete(object[key]);
 		}
 	}
+};
+
+// Check for required indexes on object
+app_object_hasKeys 				= function(keys) {
+	for(var key in keys)
+		if (typeof this[keys[key]] === "undefined")
+			return false;
+
+	return true;
+};
+
+app_is_object 					= function(obj) {
+	return Object.prototype.toString.call(obj) === "[object Object]"
 };
 
 app_object_removePrefix			= function(object, prefix) {

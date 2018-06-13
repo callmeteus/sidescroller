@@ -8,8 +8,8 @@
 			<form class="mb-0" method="post" action="#">
 				<div class="modal-body text-center">
 					<div class="form-group">
-						<span class="form-control-plaintext">Fill up your information.
-					</span>
+						<span class="form-control-plaintext">Fill up your information.</span>
+					</div>
 
 					<div class="form-group">
 						<input required class="form-control" type="email" placeholder="Email address" name="user-email" />
@@ -20,14 +20,52 @@
 					</div>
 				</div>
 
-				<div class="modal-footer btn-group row-fix">
-					<button class="btn btn-secondary btn-lg col-4" id="game-button-register">
-						<i class="fa fa-fw fa-user-plus mr-1"></i>Register
+				<div class="modal-footer btn-group">
+					<button type="button" data-toggle="modal" data-target="#game-user-register" class="btn btn-secondary btn-lg col-4">
+						<i class="fa fa-fw fa-user-plus mr-1"></i>Sign Up
 					</button>
 
 					<button type="submit" class="btn btn-primary btn-lg col-8" id="game-button-login">
-						<i class="fa fa-fw fa-sign-in-alt mr-1"></i>Login
+						<i class="fa fa-fw fa-sign-in-alt mr-1"></i>Sign In
 					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="game-user-register" tabindex="-1">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Sign Up</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+
+			<form class="mb-0" method="post" action="#">
+				<div class="modal-body text-dark">
+					<div class="form-group">
+						<span class="form-control-plaintext">Fill up your information.</span>
+					</div>
+
+					<div class="form-group">
+						<input required name="user-email" type="email" class="form-control" placeholder="Your email" autocomplete="username" />
+					</div>
+
+					<div class="form-group">
+						<input required name="user-name" type="text" class="form-control" placeholder="Your username" autocomplete="name" />
+					</div>
+
+					<div class="form-group">
+						<input required name="user-password" type="password" class="form-control" placeholder="Your password" autocomplete="new-password" />
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-lg col-4 btn-danger" data-dismiss="modal"><i class="fa fa-fw fa-times mr-1"></i>Cancel</button>
+					<button type="submit" class="btn btn-lg col-8 btn-default"><i class="fa fa-fw fa-check mr-1"></i>Sign Up</button>
 				</div>
 			</form>
 		</div>
