@@ -10,7 +10,8 @@ app_cache 			= {
 	css: 				31536000,
 	js: 				31536000,
 	jpg: 				86400,
-	png: 				86400
+	png: 				86400,
+	json: 				15
 };
 
 app_salt_rounds 	= 5;
