@@ -10,7 +10,7 @@ function app_mysql_customQuery(connection) {
 
 		if (typeof obj === "object")
 			for(var index in obj)
-				(!obj[index].hasOwnProperty()) && (query = query.replaceAll(":" + index, this.escape(obj[index])));
+				(query = query.replaceAll(":" + index, this.escape(obj[index].toString())));
 
 		arguments[0] 	= query;
 
