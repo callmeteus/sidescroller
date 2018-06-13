@@ -1,5 +1,4 @@
 (function() {
-	Sidescroller.Player.isLoggedIn 		= {{game_player_loggedIn}};
 	Sidescroller.Player.sprite 			= null;
 	Sidescroller.Player.items 			= {
 		Q: null,

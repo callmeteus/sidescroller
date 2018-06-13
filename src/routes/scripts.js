@@ -6,8 +6,6 @@ app.get("/game.js", function(req, res) {
 
 	var response 	= app_scripts;
 
-	response 		= response.replaceAll("{{game_player_loggedIn}}", (typeof req.user !== "undefined"));
-
 	if (!debug) {
 		//response 	= app_minify_js(response);
 

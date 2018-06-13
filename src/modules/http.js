@@ -1,16 +1,35 @@
 function app_http(callback) {
-	log.info("Starting up application...", log.type.server);
+	var compression     = require("compression"),
+    	minify          = require("express-minify"),
+    	session 		= require("express-session"),
+    	bodyParser 		= require("body-parser");
 
-	if (!process.env.ISTRAVIS) {
-	    // Start express
-	    app.listen(process.env.PORT || app_port, process.env.NODE_IP);
+    global.passport 	= require("passport");
+    	
+	// Start Express
+	log.info("Starting application...", log.type.server);
 
-	    log.info("-> Listening on port", app_port, log.type.server);
+	if (!debug) {
+	    // Compression middleware
+	    app.use(compression());
 
-	    // Call callback
-	    callback.call(this);
-	} else 
-	    log.info("-> Build success", log.type.server);
+	    // Minification middleware
+	    app.use(minify());
+	}
+
+	// Body parser URL encoded
+	app.use(bodyParser.urlencoded({ extended: false }));
+
+	// Session
+	app.use(session({ secret: app_cookie_secret, resave: true, saveUninitialized: false }));
+
+	// Passport.js
+	app.use(passport.initialize());
+
+	// Passport.js session
+	app.use(passport.session());
+
+	callback.call(this);
 }
 
 exports.start 	= app_http;

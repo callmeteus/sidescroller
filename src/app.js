@@ -41,9 +41,10 @@ log.info("Is debug?", debug, log.type.server);
 async.series([
     require("./modules/db").start,
     require("./modules/express").start,
+    require("./modules/http").start,
     require("./modules/passport").start,
     require("./modules/routes").start,
-    require("./modules/http").start,
+    require("./modules/start").start,
 ]);
 
 if (debug)

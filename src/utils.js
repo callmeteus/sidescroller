@@ -42,3 +42,15 @@ app_object_removePrefix			= function(object, prefix) {
 		}
 	}
 };
+
+app_treat_output 				= function(obj) {
+	var output 	= "";
+
+	if (typeof obj === "boolean" || typeof obj === "number") 
+		output = obj.toString();
+
+	if (typeof obj === "string")
+		output = '"' + obj + '"';
+
+	return output;
+}

@@ -2,7 +2,7 @@ $(function() {
 	app_loader_set("authentication screen", 98);
 
 	// Check if is already logged in
-	if (!Sidescroller.Player.isLoggedIn)
+	if (!app_config.game_logged_in)
 		app_mustache_load("user/auth", $container, null, false, function() {
 			app_loader_hide();
 
