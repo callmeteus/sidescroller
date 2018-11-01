@@ -57,6 +57,8 @@ User.getStage 		= function(id, user, callback) {
 	`, [id, user], function(err, data) {
 		if (err)
 			return callback(err);
+		if (!data.length)
+			return callback(null, "1.json");
 
 		if (id !== data[0].stageid)
 			return callback("Invalid map");
